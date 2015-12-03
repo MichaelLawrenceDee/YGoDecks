@@ -16,13 +16,15 @@ function c511000158.initial_effect(c)
 	e2:SetCountLimit(1)
 	e2:SetRange(LOCATION_SZONE)
 	e2:SetCode(EVENT_FREE_CHAIN)
+	e2:SetCondition(c511000158.spcon)
 	e2:SetTarget(c511000158.sptg)
 	e2:SetOperation(c511000158.spop)
 	c:RegisterEffect(e2)
 end
 function c511000158.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
-	if c511000158.sptg(e,tp,eg,ep,ev,re,r,rp,0) and Duel.SelectYesNo(tp,aux.Stringid(61965407,0)) then
+	if c511000158.spcon(e,tp,eg,ep,ev,re,r,rp) and c511000158.sptg(e,tp,eg,ep,ev,re,r,rp,0) 
+		and Duel.SelectYesNo(tp,aux.Stringid(61965407,0)) then
 		e:SetCategory(CATEGORY_SPECIAL_SUMMON)
 		e:SetOperation(c511000158.spop)
 		c511000158.sptg(e,tp,eg,ep,ev,re,r,rp,1)

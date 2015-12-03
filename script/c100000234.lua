@@ -16,5 +16,5 @@ function c100000234.initial_effect(c)
 	c:RegisterEffect(e2)
 end
 function c100000234.condition(e,tp,eg,ep,ev,re,r,rp)
-	return ep==tp and Duel.GetAttacker():IsControler(1-tp) and Duel.GetAttacker():IsType(TYPE_SYNCHRO)
+	return ep==tp and Duel.GetAttacker() and Duel.GetAttacker():IsControler(1-tp)
 end

@@ -54,8 +54,8 @@ function c511000119.atkop(e,tp,eg,ep,ev,re,r,rp)
 	local res=Duel.TossCoin(tp,1)
 	if coin~=res then
 		local atk=a:IsFaceup() and a:GetAttack() or 0
-		if Duel.Destroy(a,REASON_EFFECT)>0 and atk~=0 then
-			Duel.Recover(tp,atk,REASON_EFFECT)
+		if Duel.NegateAttack() and atk~=0 then
+			Duel.Recover(tp,atk/2,REASON_EFFECT)
 		end
 	end
 end
