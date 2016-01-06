@@ -60,7 +60,7 @@ function c700000013.thtg(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function c700000013.thop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
-	local g=Duel.SelectMatchingCard(tp,c700000013.thfil,tp,LOCATION_DECK,0,1,1,nil)
+	local g=Duel.SelectMatchingCard(tp,c700000013.thfilter,tp,LOCATION_DECK,0,1,1,nil)
 	local tc=g:GetFirst()
 	if tc then
 		Duel.SendtoHand(tc,nil,REASON_EFFECT)
