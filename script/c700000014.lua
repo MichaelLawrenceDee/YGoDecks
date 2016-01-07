@@ -30,12 +30,13 @@ function c700000014.initial_effect(c)
 	e4:SetCode(EVENT_SPSUMMON_SUCCESS)
 	c:RegisterEffect(e4)
 end
-function c700000014.cfilter(c)
-	return c:IsType(TYPE_PENDULUM) and c:IsSetCard(0x120e) and c:IsAbleToDeckOrExtraAsCost()
+function c700000014.cfilter(c,tp)
+	return c:IsType(TYPE_PENDULUM) and c:IsSetCard(0x120e) and c:IsAbleToDeckOrExtraAsCost() 
+		and Duel.IsExistingTarget(Card.IsFaceup,tp,LOCATION_MZONE,0,1,c)
 end
 function c700000014.atkcost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(c700000014.cfilter,tp,LOCATION_MZONE,0,1,nil) end
-	local g=Duel.SelectMatchingCard(tp,c700000014.cfilter,tp,LOCATION_MZONE,0,1,1,nil)
+	if chk==0 then return Duel.IsExistingMatchingCard(c700000014.cfilter,tp,LOCATION_MZONE,0,1,nil,tp) end
+	local g=Duel.SelectMatchingCard(tp,c700000014.cfilter,tp,LOCATION_MZONE,0,1,1,nil,tp)
 	local atk=g:GetFirst():GetAttack()
 	if atk<0 then atk=0 end
 	e:SetLabel(atk)
