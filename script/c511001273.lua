@@ -84,7 +84,7 @@ function c511001273.regop(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function c511001273.spfilter(c,e,tp,tid)
-	return c:IsReason(REASON_DESTROY) and c:GetTurnID()==tid and c:IsCanBeSpecialSummoned(e,0,tp,false,false) and c:GetCode()~=511001273
+	return c:IsReason(REASON_DESTROY) and c:GetTurnID()==tid and c:IsCanBeSpecialSummoned(e,0,tp,false,false) and c:GetCode()~=37279508
 end
 function c511001273.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0 
