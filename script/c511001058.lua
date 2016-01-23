@@ -20,6 +20,20 @@ function c511001058.initial_effect(c)
 	e3:SetRange(LOCATION_SZONE)
 	e3:SetOperation(c511001058.regop)
 	c:RegisterEffect(e3)
+	if not c511001058.global_check then
+		c511001058.global_check=true
+		local ge2=Effect.CreateEffect(c)
+		ge2:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
+		ge2:SetCode(EVENT_ADJUST)
+		ge2:SetCountLimit(1)
+		ge2:SetProperty(EFFECT_FLAG_NO_TURN_RESET)
+		ge2:SetOperation(c511001058.xyzchk)
+		Duel.RegisterEffect(ge2,0)
+	end
+end
+function c511001058.xyzchk(e,tp,eg,ep,ev,re,r,rp)
+	Duel.CreateToken(tp,419)
+	Duel.CreateToken(1-tp,419)
 end
 function c511001058.filter(c,e,tp)
 	return c:GetLevel()>0 and c:IsFaceup()
@@ -41,6 +55,9 @@ function c511001058.regop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local tc=c:GetFirstCardTarget()
 	if not tc or not tc:IsLocation(LOCATION_MZONE) then return end
+	if c:GetFlagEffect(511000189)>0 and c:GetFlagEffect(511000189)~=tc:GetLevel() then
+		c:ResetFlagEffect(511000189)
+	end
 	while c:GetFlagEffect(511000189)<tc:GetLevel() do
 		c:RegisterFlagEffect(511000189,RESET_EVENT+0x1ff0000,0,0)
 	end
