@@ -11,7 +11,7 @@ function c511001292.initial_effect(c)
 	c:RegisterEffect(e1)
 end
 function c511001292.condition(e,tp,eg,ep,ev,re,r,rp)
-	return Duel.GetAttacker():IsSetCard(0xe1)
+	return Duel.GetAttacker():IsSetCard(0xdf)
 end
 function c511001292.tg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetFieldGroupCount(aux.TRUE,1-tp,LOCATION_MZONE,1,nil) end

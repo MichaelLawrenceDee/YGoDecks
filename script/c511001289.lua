@@ -1,7 +1,7 @@
 --Moonlight Cat Dancer
 function c511001289.initial_effect(c)
 	--fustion material
-	aux.AddFusionProcFunRep(c,aux.FilterBoolFunction(Card.IsSetCard,0xe1),2,true)
+	aux.AddFusionProcFunRep(c,aux.FilterBoolFunction(Card.IsSetCard,0xdf),2,true)
 	c:EnableReviveLimit()
 	--attack
 	local e1=Effect.CreateEffect(c)
@@ -13,9 +13,9 @@ function c511001289.initial_effect(c)
 	c:RegisterEffect(e1)
 end
 function c511001289.cost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.CheckReleaseGroup(tp,Card.IsSetCard,1,e:GetHandler(),0xe1)
+	if chk==0 then return Duel.CheckReleaseGroup(tp,Card.IsSetCard,1,e:GetHandler(),0xdf)
 		and e:GetHandler():GetFlagEffect(511001289)==0 end
-	local g=Duel.SelectReleaseGroup(tp,Card.IsSetCard,1,1,e:GetHandler(),0xe1)
+	local g=Duel.SelectReleaseGroup(tp,Card.IsSetCard,1,1,e:GetHandler(),0xdf)
 	Duel.Release(g,REASON_COST)
 end
 function c511001289.operation(e,tp,eg,ep,ev,re,r,rp)

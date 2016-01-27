@@ -1,7 +1,7 @@
 --Moonlight Panther Dancer
 function c511002009.initial_effect(c)
 	--fustion material
-	aux.AddFusionProcCodeFun(c,511001289,aux.FilterBoolFunction(Card.IsSetCard,0xe1),1,true,true)
+	aux.AddFusionProcCodeFun(c,511001289,aux.FilterBoolFunction(Card.IsSetCard,0xdf),1,true,true)
 	c:EnableReviveLimit()
 	--attack
 	local e1=Effect.CreateEffect(c)
