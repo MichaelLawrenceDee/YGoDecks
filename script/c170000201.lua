@@ -35,7 +35,7 @@ function c170000201.spfilter(c,e,tp,code)
 	return c:IsCode(code) and c:IsCanBeSpecialSummoned(e,0,tp,true,true)
 end
 function c170000201.filter(c)
-	return c:IsCode(48179392) or c:IsCode(110000100) or c:IsCode(110000101)
+	return c:IsCode(48179391) or c:IsCode(110000100) or c:IsCode(110000101)
 end
 function c170000201.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>1 
@@ -62,6 +62,23 @@ function c170000201.operation(e,tp,eg,ep,ev,re,r,rp)
 	end
 	Duel.BreakEffect()
 	local g=Duel.GetMatchingGroup(c170000201.filter,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,nil)
+	local tc=g:GetFirst()
+	while tc do
+		local e1=Effect.CreateEffect(e:GetHandler())
+		e1:SetType(EFFECT_TYPE_SINGLE)
+		e1:SetCode(EFFECT_DISABLE)
+		e1:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
+		e1:SetReset(RESET_EVENT+0x1fe0000)
+		tc:RegisterEffect(e1)
+		local e2=Effect.CreateEffect(e:GetHandler())
+		e2:SetType(EFFECT_TYPE_SINGLE)
+		e2:SetCode(EFFECT_DISABLE_EFFECT)
+		e2:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
+		e2:SetReset(RESET_EVENT+0x1fe0000)
+		tc:RegisterEffect(e2)
+		tc=g:GetNext()
+	end
+	Duel.BreakEffect()
 	Duel.Destroy(g,REASON_EFFECT)
 	Duel.SendtoGrave(g,REASON_EFFECT)
 end

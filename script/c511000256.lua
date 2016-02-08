@@ -46,8 +46,8 @@ function c511000256.initial_effect(c)
 	c:RegisterEffect(e5)
 end
 function c511000256.desfilter(c)
-	return bit.band(c:GetSummonType(),SUMMON_TYPE_FUSION)~=0 and c:IsDestructable() and c:IsCode(170000150) or c:IsCode(170000154) or c:IsCode(170000155) or c:IsCode(170000157) or c:IsCode(170000158)
-	or c:IsCode(170000193) or c:IsCode(170000194) or c:IsCode(170000196) or c:IsCode(170000197)
+	return bit.band(c:GetSummonType(),SUMMON_TYPE_FUSION)~=0 and c:IsDestructable() 
+		and (c.hermos_filter or c.material_race or aux.IsMaterialListCode(c,1784686) or c.material_trap)
 end
 function c511000256.mgfilter(c,e,tp,fusc)
 	return bit.band(c:GetReason(),0x40008)==0x40008
@@ -74,7 +74,7 @@ function c511000256.actop(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function c511000256.indval(e,re)
-	return not re:GetHandler():IsCode(170000201)
+	return not re:GetHandler():IsCode(89397517)
 end
 function c511000256.cannotatkcon(e)
 	return Duel.IsExistingMatchingCard(Card.IsPosition,e:GetHandlerPlayer(),LOCATION_MZONE,0,2,nil,POS_FACEUP)
