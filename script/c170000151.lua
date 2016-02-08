@@ -12,7 +12,7 @@ function c170000151.initial_effect(c)
 	e2:SetCode(EFFECT_ADD_TYPE)
 	e2:SetType(EFFECT_TYPE_SINGLE)
 	e2:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
-	e2:SetValue(TYPE_EFFECT+TYPE_MONSTER)
+	e2:SetValue(c170000151.monval)
 	c:RegisterEffect(e2)
 end
 function c170000151.target(e,tp,eg,ep,ev,re,r,rp,chk)
@@ -43,5 +43,12 @@ function c170000151.activate(e,tp,eg,ep,ev,re,r,rp)
 		Duel.BreakEffect()
 		Duel.SpecialSummon(sc,0,tp,tp,true,false,POS_FACEUP)
 		sc:CompleteProcedure()
+	end
+end
+function c170000151.monval(e,c)
+	if (c:IsOnField() and c:IsFacedown()) or c:IsLocation(LOCATION_GRAVE) then
+		return TYPE_EFFECT+TYPE_MONSTER
+	else
+		return 0
 	end
 end
