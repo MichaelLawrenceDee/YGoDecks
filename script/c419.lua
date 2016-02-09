@@ -49,7 +49,7 @@ function c419.op(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function c419.mfilter(c,rk,xyz)
-	return c:IsFaceup() and xyz.xyz_filter(c) and c:IsCanBeXyzMaterial(xyz) and c:IsXyzLevel(xyz,rk)
+	return c:IsFaceup() and xyz.xyz_filter(c) and c:IsCanBeXyzMaterial(xyz)
 end
 function c419.amfilter(c)
 	return c:GetEquipGroup():IsExists(Card.IsHasEffect,1,nil,511001175)
