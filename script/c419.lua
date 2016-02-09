@@ -132,7 +132,12 @@ function c419.xyzop(e,tp,eg,ep,ev,re,r,rp,c,og)
 		tc=g1:GetNext()
 	end
 	sg:Merge(eqg)
-	Duel.SendtoGrave(sg,REASON_RULE)
+	if not c.maintain_overlay then
+		Duel.SendtoGrave(sg,REASON_RULE)
+	else
+		Duel.Overlay(c,sg)
+		g1:Merge(sg)
+	end
 	c:SetMaterial(g1)
 	Duel.Overlay(c,g1)
 end
