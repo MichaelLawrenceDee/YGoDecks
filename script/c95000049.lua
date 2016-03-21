@@ -30,16 +30,25 @@ function c95000049.initial_effect(c)
 	e4:SetTargetRange(1,1)
 	e4:SetTarget(c95000049.aclimit2)
 	c:RegisterEffect(e4)
-	--~ Add Action Card
+	--cannot activate
 	local e5=Effect.CreateEffect(c)
-	e5:SetDescription(aux.Stringid(95000049,0))
-	e5:SetType(EFFECT_TYPE_QUICK_O)
+	e5:SetType(EFFECT_TYPE_FIELD)
+	e5:SetCode(EFFECT_CANNOT_ACTIVATE)
 	e5:SetRange(LOCATION_SZONE)
-	e5:SetCode(EVENT_FREE_CHAIN)
-	e5:SetCondition(c95000049.condition)
-	e5:SetTarget(c95000049.Acttarget)
-	e5:SetOperation(c95000049.operation)
+	e5:SetProperty(EFFECT_FLAG_PLAYER_TARGET+EFFECT_FLAG_UNCOPYABLE+EFFECT_FLAG_CANNOT_DISABLE)
+	e5:SetTargetRange(1,1)
+	e5:SetValue(c95000049.aclimit)
 	c:RegisterEffect(e5)
+	--~ Add Action Card
+	local e6=Effect.CreateEffect(c)
+	e6:SetDescription(aux.Stringid(95000043,0))
+	e6:SetType(EFFECT_TYPE_QUICK_O)
+	e6:SetRange(LOCATION_SZONE)
+	e6:SetCode(EVENT_FREE_CHAIN)
+	e6:SetCondition(c95000049.condition)
+	e6:SetTarget(c95000049.Acttarget)
+	e6:SetOperation(c95000049.operation)
+	c:RegisterEffect(e6)
 	--Amazoness atkup
 	local e6=Effect.CreateEffect(c)
 	e6:SetType(EFFECT_TYPE_FIELD)
@@ -98,6 +107,8 @@ function c95000049.initial_effect(c)
 	ef3:SetOperation(c95000049.drop)
 	c:RegisterEffect(ef3)
 end
+
+-- Add Action Card
 function c95000049.Cheatercheck1(e,c)
 	if Duel.GetMatchingGroupCount(c95000049.Fieldfilter,tp,0,LOCATION_DECK+LOCATION_HAND,nil)>1
 	then
@@ -128,65 +139,8 @@ end
 function c95000049.ctcon2(e,re)
 	return re:GetHandler()~=e:GetHandler()
 end
-function c95000049.aclimit2(e,c)
-	return c:IsType(TYPE_FIELD)
-end
-function c95000049.tgn(e,c)
-	return c==e:GetHandler()
-end
-function c95000049.op(e,tp,eg,ep,ev,re,r,rp,chk)
-local tc=Duel.GetFieldCard(tp,LOCATION_SZONE,5)
-	local tc2=Duel.GetFieldCard(1-tp,LOCATION_SZONE,5)	
-	if tc==nil then
-		Duel.MoveToField(e:GetHandler(),tp,tp,LOCATION_SZONE,POS_FACEUP,true)
-		if tc2==nil then
-			local token=Duel.CreateToken(tp,95000043,nil,nil,nil,nil,nil,nil)		
-			Duel.SpecialSummonStep(token,0,tp,tp,false,false,POS_FACEUP)
-			local e1=Effect.CreateEffect(e:GetHandler())
-			e1:SetCode(EFFECT_CHANGE_TYPE)
-			e1:SetType(EFFECT_TYPE_SINGLE)
-			e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
-			e1:SetReset(RESET_EVENT+0x1fc0000)
-			e1:SetValue(TYPE_SPELL+TYPE_FIELD)
-			token:RegisterEffect(e1)
-			Duel.MoveToField(token,tp,1-tp,LOCATION_SZONE,POS_FACEUP,true)
-			Duel.SpecialSummonComplete()
-		end
-	end
-	-- if e:GetHandler():GetPreviousLocation()==LOCATION_HAND then
-		-- Duel.Draw(tp,1,REASON_RULE)
-	-- end
-end
--- Add Action Card
-function function c95000049.Cheatercheck1(e,c)
-	if Duel.GetMatchingGroupCount(c95000049.Fieldfilter,tp,0,LOCATION_DECK+LOCATION_HAND,nil)>1
-	then
-	local WIN_REASON_ACTION_FIELD=0x55
-	Duel.Win(tp,WIN_REASON_ACTION_FIELD)
-	end
-	
-	local sg=Duel.GetMatchingGroup(c95000049.Fieldfilter,tp,LOCATION_DECK+LOCATION_HAND,LOCATION_DECK+LOCATION_HAND,nil)
-	Duel.Remove(sg,POS_FACEUP,REASON_EFFECT)
-end
-
-function c95000049.descon(e,tp,eg,ep,ev,re,r,rp)
-	return e:GetHandler():IsFaceup() and e:GetHandler():IsPreviousLocation(LOCATION_HAND)
-end
-function c95000049.drtarget(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	if chk==0 then return true end
-	Duel.SetTargetPlayer(tp)
-	Duel.SetTargetParam(1)
-	Duel.SetOperationInfo(0,CATEGORY_DRAW,nil,0,tp,1)
-end
-function c95000049.drop(e,tp,eg,ep,ev,re,r,rp)
-	local p,d=Duel.GetChainInfo(0,CHAININFO_TARGET_PLAYER,CHAININFO_TARGET_PARAM)
-	Duel.Draw(p,d,REASON_RULE)
-end
-function c95000049.Fieldfilter(c)
-	return c:IsSetCard(0xac2)
-end
-function c95000049.ctcon2(e,re)
-	return re:GetHandler()~=e:GetHandler()
+function c95000049.aclimit(e,re,tp)
+	return re:GetHandler():IsType(TYPE_FIELD) and re:IsHasType(EFFECT_TYPE_ACTIVATE)
 end
 function c95000049.aclimit2(e,c)
 	return c:IsType(TYPE_FIELD)
@@ -200,7 +154,7 @@ local tc=Duel.GetFieldCard(tp,LOCATION_SZONE,5)
 	if tc==nil then
 		Duel.MoveToField(e:GetHandler(),tp,tp,LOCATION_SZONE,POS_FACEUP,true)
 		if tc2==nil then
-			local token=Duel.CreateToken(tp,95000043,nil,nil,nil,nil,nil,nil)		
+			local token=Duel.CreateToken(tp,95000049,nil,nil,nil,nil,nil,nil)		
 			Duel.SpecialSummonStep(token,0,tp,tp,false,false,POS_FACEUP)
 			local e1=Effect.CreateEffect(e:GetHandler())
 			e1:SetCode(EFFECT_CHANGE_TYPE)

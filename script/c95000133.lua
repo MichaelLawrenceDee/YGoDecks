@@ -30,16 +30,25 @@ function c95000133.initial_effect(c)
 	e4:SetTargetRange(1,1)
 	e4:SetTarget(c95000116.aclimit2)
 	c:RegisterEffect(e4)
-	--~ Add Action Card
+	--cannot activate
 	local e5=Effect.CreateEffect(c)
-	e5:SetDescription(aux.Stringid(95000116,0))
-	e5:SetType(EFFECT_TYPE_QUICK_O)
+	e5:SetType(EFFECT_TYPE_FIELD)
+	e5:SetCode(EFFECT_CANNOT_ACTIVATE)
 	e5:SetRange(LOCATION_SZONE)
-	e5:SetCode(EVENT_FREE_CHAIN)
-	e5:SetCondition(c95000116.condition)
-	e5:SetTarget(c95000116.Acttarget)
-	e5:SetOperation(c95000116.operation)
+	e5:SetProperty(EFFECT_FLAG_PLAYER_TARGET+EFFECT_FLAG_UNCOPYABLE+EFFECT_FLAG_CANNOT_DISABLE)
+	e5:SetTargetRange(1,1)
+	e5:SetValue(c95000133.aclimit)
 	c:RegisterEffect(e5)
+	--~ Add Action Card
+	local e6=Effect.CreateEffect(c)
+	e6:SetDescription(aux.Stringid(95000133,0))
+	e6:SetType(EFFECT_TYPE_QUICK_O)
+	e6:SetRange(LOCATION_SZONE)
+	e6:SetCode(EVENT_FREE_CHAIN)
+	e6:SetCondition(c95000133.condition)
+	e6:SetTarget(c95000133.Acttarget)
+	e6:SetOperation(c95000133.operation)
+	c:RegisterEffect(e6)
 	--cannot change zone
 	local eb=Effect.CreateEffect(c)
 	eb:SetType(EFFECT_TYPE_SINGLE)
@@ -106,6 +115,9 @@ end
 function c95000133.ctcon2(e,re)
 	return re:GetHandler()~=e:GetHandler()
 end
+function c95000133.aclimit(e,re,tp)
+	return re:GetHandler():IsType(TYPE_FIELD) and re:IsHasType(EFFECT_TYPE_ACTIVATE)
+end
 function c95000133.aclimit2(e,c)
 	return c:IsType(TYPE_FIELD)
 end
@@ -118,7 +130,7 @@ local tc=Duel.GetFieldCard(tp,LOCATION_SZONE,5)
 	if tc==nil then
 		Duel.MoveToField(e:GetHandler(),tp,tp,LOCATION_SZONE,POS_FACEUP,true)
 		if tc2==nil then
-			local token=Duel.CreateToken(tp,95000043,nil,nil,nil,nil,nil,nil)		
+			local token=Duel.CreateToken(tp,95000133,nil,nil,nil,nil,nil,nil)		
 			Duel.SpecialSummonStep(token,0,tp,tp,false,false,POS_FACEUP)
 			local e1=Effect.CreateEffect(e:GetHandler())
 			e1:SetCode(EFFECT_CHANGE_TYPE)

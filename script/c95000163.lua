@@ -30,16 +30,25 @@ function c95000163.initial_effect(c)
 	e4:SetTargetRange(1,1)
 	e4:SetTarget(c95000163.aclimit2)
 	c:RegisterEffect(e4)
-	--~ Add Action Card
+	--cannot activate
 	local e5=Effect.CreateEffect(c)
-	e5:SetDescription(aux.Stringid(95000163,0))
-	e5:SetType(EFFECT_TYPE_QUICK_O)
+	e5:SetType(EFFECT_TYPE_FIELD)
+	e5:SetCode(EFFECT_CANNOT_ACTIVATE)
 	e5:SetRange(LOCATION_SZONE)
-	e5:SetCode(EVENT_FREE_CHAIN)
-	e5:SetCondition(c95000163.condition)
-	e5:SetTarget(c95000163.Acttarget)
-	e5:SetOperation(c95000163.operation)
+	e5:SetProperty(EFFECT_FLAG_PLAYER_TARGET+EFFECT_FLAG_UNCOPYABLE+EFFECT_FLAG_CANNOT_DISABLE)
+	e5:SetTargetRange(1,1)
+	e5:SetValue(c95000163.aclimit)
 	c:RegisterEffect(e5)
+	--~ Add Action Card
+	local e6=Effect.CreateEffect(c)
+	e6:SetDescription(aux.Stringid(95000163,0))
+	e6:SetType(EFFECT_TYPE_QUICK_O)
+	e6:SetRange(LOCATION_SZONE)
+	e6:SetCode(EVENT_FREE_CHAIN)
+	e6:SetCondition(c95000163.condition)
+	e6:SetTarget(c95000163.Acttarget)
+	e6:SetOperation(c95000163.operation)
+	c:RegisterEffect(e6)
 	--cannot change zone
 	local eb=Effect.CreateEffect(c)
 	eb:SetType(EFFECT_TYPE_SINGLE)
@@ -216,6 +225,9 @@ if not Duel.IsExistingMatchingCard(c95000163.cfilter,tp,LOCATION_SZONE+LOCATION_
 		Duel.SpecialSummonComplete()	
 end
 end
+end
+function c95000043.aclimit(e,re,tp)
+	return re:GetHandler():IsType(TYPE_FIELD) and re:IsHasType(EFFECT_TYPE_ACTIVATE)
 end
 function c95000163.aclimit2(e,c)
 	return c:IsType(TYPE_FIELD)

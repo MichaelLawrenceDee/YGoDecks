@@ -30,16 +30,25 @@ function c95000043.initial_effect(c)
 	e4:SetTargetRange(1,1)
 	e4:SetTarget(c95000043.aclimit2)
 	c:RegisterEffect(e4)
-	--~ Add Action Card
+	--cannot activate
 	local e5=Effect.CreateEffect(c)
-	e5:SetDescription(aux.Stringid(95000043,0))
-	e5:SetType(EFFECT_TYPE_QUICK_O)
+	e5:SetType(EFFECT_TYPE_FIELD)
+	e5:SetCode(EFFECT_CANNOT_ACTIVATE)
 	e5:SetRange(LOCATION_SZONE)
-	e5:SetCode(EVENT_FREE_CHAIN)
-	e5:SetCondition(c95000043.condition)
-	e5:SetTarget(c95000043.Acttarget)
-	e5:SetOperation(c95000043.operation)
+	e5:SetProperty(EFFECT_FLAG_PLAYER_TARGET+EFFECT_FLAG_UNCOPYABLE+EFFECT_FLAG_CANNOT_DISABLE)
+	e5:SetTargetRange(1,1)
+	e5:SetValue(c95000043.aclimit)
 	c:RegisterEffect(e5)
+	--~ Add Action Card
+	local e6=Effect.CreateEffect(c)
+	e6:SetDescription(aux.Stringid(95000043,0))
+	e6:SetType(EFFECT_TYPE_QUICK_O)
+	e6:SetRange(LOCATION_SZONE)
+	e6:SetCode(EVENT_FREE_CHAIN)
+	e6:SetCondition(c95000043.condition)
+	e6:SetTarget(c95000043.Acttarget)
+	e6:SetOperation(c95000043.operation)
+	c:RegisterEffect(e6)
 	--cannot change zone
 	local eb=Effect.CreateEffect(c)
 	eb:SetType(EFFECT_TYPE_SINGLE)
@@ -86,7 +95,9 @@ function c95000043.Cheatercheck1(e,c)
 	local sg=Duel.GetMatchingGroup(c95000043.Fieldfilter,tp,LOCATION_DECK+LOCATION_HAND,LOCATION_DECK+LOCATION_HAND,nil)
 	Duel.Remove(sg,POS_FACEUP,REASON_EFFECT)
 end
-
+function c95000043.Fieldfilter(c)
+	return c:IsSetCard(0xac2)
+end
 function c95000043.descon(e,tp,eg,ep,ev,re,r,rp)
 	return e:GetHandler():IsFaceup() and e:GetHandler():IsPreviousLocation(LOCATION_HAND)
 end
@@ -100,9 +111,7 @@ function c95000043.drop(e,tp,eg,ep,ev,re,r,rp)
 	local p,d=Duel.GetChainInfo(0,CHAININFO_TARGET_PLAYER,CHAININFO_TARGET_PARAM)
 	Duel.Draw(p,d,REASON_RULE)
 end
-function c95000043.Fieldfilter(c)
-	return c:IsSetCard(0xac2)
-end
+
 function c95000043.ctcon2(e,re)
 	return re:GetHandler()~=e:GetHandler()
 end
@@ -202,6 +211,9 @@ if not Duel.IsExistingMatchingCard(c95000043.cfilter,tp,LOCATION_SZONE+LOCATION_
 		Duel.SpecialSummonComplete()	
 end
 end
+end
+function c95000043.aclimit(e,re,tp)
+	return re:GetHandler():IsType(TYPE_FIELD) and re:IsHasType(EFFECT_TYPE_ACTIVATE)
 end
 function c95000043.aclimit2(e,c)
 	return c:IsType(TYPE_FIELD)

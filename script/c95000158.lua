@@ -30,16 +30,25 @@ function c95000158.initial_effect(c)
 	e4:SetTargetRange(1,1)
 	e4:SetTarget(c95000158.aclimit2)
 	c:RegisterEffect(e4)
-	--~ Add Action Card
+	--cannot activate
 	local e5=Effect.CreateEffect(c)
-	e5:SetDescription(aux.Stringid(95000043,0))
-	e5:SetType(EFFECT_TYPE_QUICK_O)
+	e5:SetType(EFFECT_TYPE_FIELD)
+	e5:SetCode(EFFECT_CANNOT_ACTIVATE)
 	e5:SetRange(LOCATION_SZONE)
-	e5:SetCode(EVENT_FREE_CHAIN)
-	e5:SetCondition(c95000158.condition)
-	e5:SetTarget(c95000158.Acttarget)
-	e5:SetOperation(c95000158.operation)
+	e5:SetProperty(EFFECT_FLAG_PLAYER_TARGET+EFFECT_FLAG_UNCOPYABLE+EFFECT_FLAG_CANNOT_DISABLE)
+	e5:SetTargetRange(1,1)
+	e5:SetValue(c95000158.aclimit)
 	c:RegisterEffect(e5)
+	--~ Add Action Card
+	local e6=Effect.CreateEffect(c)
+	e6:SetDescription(aux.Stringid(95000158,0))
+	e6:SetType(EFFECT_TYPE_QUICK_O)
+	e6:SetRange(LOCATION_SZONE)
+	e6:SetCode(EVENT_FREE_CHAIN)
+	e6:SetCondition(c95000158.condition)
+	e6:SetTarget(c95000158.Acttarget)
+	e6:SetOperation(c95000158.operation)
+	c:RegisterEffect(e6)
 	--cannot change zone
 	local eb=Effect.CreateEffect(c)
 	eb:SetType(EFFECT_TYPE_SINGLE)
@@ -115,6 +124,9 @@ end
 function c95000158.ctcon2(e,re)
 	return re:GetHandler()~=e:GetHandler()
 end
+function c95000158.aclimit(e,re,tp)
+	return re:GetHandler():IsType(TYPE_FIELD) and re:IsHasType(EFFECT_TYPE_ACTIVATE)
+end
 function c95000158.aclimit2(e,c)
 	return c:IsType(TYPE_FIELD)
 end
@@ -127,7 +139,7 @@ local tc=Duel.GetFieldCard(tp,LOCATION_SZONE,5)
 	if tc==nil then
 		Duel.MoveToField(e:GetHandler(),tp,tp,LOCATION_SZONE,POS_FACEUP,true)
 		if tc2==nil then
-			local token=Duel.CreateToken(tp,95000043,nil,nil,nil,nil,nil,nil)		
+			local token=Duel.CreateToken(tp,95000158,nil,nil,nil,nil,nil,nil)		
 			Duel.SpecialSummonStep(token,0,tp,tp,false,false,POS_FACEUP)
 			local e1=Effect.CreateEffect(e:GetHandler())
 			e1:SetCode(EFFECT_CHANGE_TYPE)
@@ -158,10 +170,10 @@ ac=math.random(1,tableAction_size)
 e:SetLabel(tableAction[ac])
 end
 function c95000158.operation(e,tp,eg,ep,ev,re,r,rp)
-if Duel.SelectYesNo(1-tp,aux.Stringid(95000043,0)) then
+if Duel.SelectYesNo(1-tp,aux.Stringid(95000158,0)) then
 local dc=Duel.TossDice(tp,1)
 if dc==2 or dc==3 or dc==4 or dc==6 then
-e:GetHandler():RegisterFlagEffect(95000043,RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END,0,1)
+e:GetHandler():RegisterFlagEffect(95000158,RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END,0,1)
 end
 if dc==1 or dc==2 then
 if not Duel.IsExistingMatchingCard(c95000158.cfilter,tp,LOCATION_SZONE+LOCATION_HAND,0,1,nil) then
@@ -216,7 +228,7 @@ function c95000158.aclimit2(e,c)
 	return c:IsType(TYPE_FIELD)
 end
 function c95000158.condition(e,tp,eg,ep,ev,re,r,rp)
-	return not Duel.IsExistingMatchingCard(c95000158.cfilter,tp,LOCATION_SZONE+LOCATION_HAND,0,1,nil) and e:GetHandler():GetFlagEffect(95000043)==0
+	return not Duel.IsExistingMatchingCard(c95000158.cfilter,tp,LOCATION_SZONE+LOCATION_HAND,0,1,nil) and e:GetHandler():GetFlagEffect(95000158)==0
 	and not e:GetHandler():IsStatus(STATUS_CHAINING)
 end
 function c95000158.cfilter(c)
