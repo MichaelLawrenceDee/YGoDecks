@@ -38,13 +38,6 @@ function c511001115.initial_effect(c)
 	e5:SetRange(LOCATION_MZONE)
 	e5:SetCondition(c511001115.descon)
 	c:RegisterEffect(e5)
-	--add setcode
-	local e6=Effect.CreateEffect(c)
-	e6:SetType(EFFECT_TYPE_SINGLE)
-	e6:SetProperty(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_UNCOPYABLE)
-	e6:SetCode(EFFECT_ADD_SETCODE)
-	e6:SetValue(0x3034)
-	c:RegisterEffect(e6)
 end
 function c511001115.descon(e)
 	return not Duel.IsEnvironment(12644061)

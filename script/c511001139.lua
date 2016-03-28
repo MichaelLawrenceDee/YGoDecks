@@ -57,7 +57,7 @@ function c511001139.initial_effect(c)
 	c:RegisterEffect(e6)
 end
 function c511001139.rainbowfilter(c)
-	return c:IsSetCard(0x3034) and (not c:IsOnField() or c:IsFaceup())
+	return c:IsSetCard(0x5034) and (not c:IsOnField() or c:IsFaceup())
 end
 function c511001139.rainbowcon(e,c)
 	if c==nil then return true end
@@ -72,7 +72,7 @@ function c511001139.overdrivecon(e,tp,eg,ep,ev,re,r,rp)
 	return phase~=PHASE_DAMAGE or not Duel.IsDamageCalculated()
 end
 function c511001139.overdrivefilter(c)
-	return c:IsFaceup() and c:IsSetCard(0x3034) and c:IsAbleToGraveAsCost()
+	return c:IsFaceup() and c:IsSetCard(0x5034) and c:IsAbleToGraveAsCost()
 end
 function c511001139.overdrivecost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(c511001139.overdrivefilter,tp,LOCATION_ONFIELD,0,1,nil) end
@@ -95,7 +95,7 @@ function c511001139.protectioncon(e,tp,eg,ep,ev,re,r,rp)
 	return e:GetHandler():GetFlagEffect(511001139)==0
 end
 function c511001139.protectionfilter(c)
-	return c:IsSetCard(0x3034) and c:IsAbleToGraveAsCost()
+	return c:IsSetCard(0x5034) and c:IsAbleToGraveAsCost()
 end
 function c511001139.protectiontg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(c511001139.protectionfilter,tp,LOCATION_SZONE,0,1,nil) end

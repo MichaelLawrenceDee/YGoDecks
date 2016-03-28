@@ -112,25 +112,37 @@ function c511001952.val(e,c)
 end
 function c511001952.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return (Duel.GetLocationCount(tp,LOCATION_MZONE)>0 
-		and Duel.IsPlayerCanSpecialSummonMonster(tp,511001953,0,0x4011,100,0,1,RACE_FIEND,ATTRIBUTE_DARK)) 
+		and Duel.IsPlayerCanSpecialSummonMonster(tp,90884404,0,0x4011,100,0,1,RACE_FIEND,ATTRIBUTE_DARK)) 
 		or (Duel.GetLocationCount(1-tp,LOCATION_MZONE)>0 
-		and Duel.IsPlayerCanSpecialSummonMonster(1-tp,511001953,0,0x4011,100,0,1,RACE_FIEND,ATTRIBUTE_DARK)) end
+		and Duel.IsPlayerCanSpecialSummonMonster(1-tp,90884404,0,0x4011,100,0,1,RACE_FIEND,ATTRIBUTE_DARK)) end
 	local ft=(Duel.GetLocationCount(tp,LOCATION_MZONE)+Duel.GetLocationCount(1-tp,LOCATION_MZONE))
 	Duel.SetOperationInfo(0,CATEGORY_TOKEN,nil,ft,0,0)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,ft,0,0)
 end
 function c511001952.spop(e,tp,eg,ep,ev,re,r,rp)
 	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
-	if ft<=0 or not Duel.IsPlayerCanSpecialSummonMonster(tp,511001953,0,0x4011,100,0,1,RACE_FIEND,ATTRIBUTE_DARK) then return end
+	if ft<=0 or not Duel.IsPlayerCanSpecialSummonMonster(tp,90884404,0,0x4011,100,0,1,RACE_FIEND,ATTRIBUTE_DARK) then return end
 	for i=1,ft do
-		local token=Duel.CreateToken(tp,511001953)
+		local token=Duel.CreateToken(tp,90884404)
 		Duel.SpecialSummonStep(token,0,tp,tp,false,false,POS_FACEUP_DEFENCE)
+		local e1=Effect.CreateEffect(e:GetHandler())
+		e1:SetType(EFFECT_TYPE_SINGLE)
+		e1:SetCode(EFFECT_SET_BASE_ATTACK)
+		e1:SetValue(100)
+		e1:SetReset(RESET_EVENT+0xfe0000)
+		token:RegisterEffect(e1)
 	end
 	local ft2=Duel.GetLocationCount(1-tp,LOCATION_MZONE)
-	if ft2<=0 or not Duel.IsPlayerCanSpecialSummonMonster(1-tp,511001953,0,0x4011,0,0,1,RACE_FIEND,ATTRIBUTE_DARK) then return end
+	if ft2<=0 or not Duel.IsPlayerCanSpecialSummonMonster(1-tp,90884404,0,0x4011,0,0,1,RACE_FIEND,ATTRIBUTE_DARK) then return end
 	for i=1,ft2 do
-		local token=Duel.CreateToken(tp,511001953)
+		local token=Duel.CreateToken(tp,90884404)
 		Duel.SpecialSummonStep(token,0,tp,1-tp,false,false,POS_FACEUP_DEFENCE)
+		local e1=Effect.CreateEffect(e:GetHandler())
+		e1:SetType(EFFECT_TYPE_SINGLE)
+		e1:SetCode(EFFECT_SET_BASE_ATTACK)
+		e1:SetValue(100)
+		e1:SetReset(RESET_EVENT+0xfe0000)
+		token:RegisterEffect(e1)
 	end
 	Duel.SpecialSummonComplete()
 end

@@ -40,13 +40,6 @@ function c511001101.initial_effect(c)
 	e6:SetRange(LOCATION_ONFIELD)
 	e6:SetCondition(c511001101.descon)
 	c:RegisterEffect(e6)
-	--add setcode
-	local e7=Effect.CreateEffect(c)
-	e7:SetType(EFFECT_TYPE_SINGLE)
-	e7:SetProperty(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_UNCOPYABLE)
-	e7:SetCode(EFFECT_ADD_SETCODE)
-	e7:SetValue(0x3034)
-	c:RegisterEffect(e7)
 end
 function c511001101.descon(e)
 	return not Duel.IsEnvironment(12644061)

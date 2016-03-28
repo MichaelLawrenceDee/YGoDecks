@@ -34,13 +34,6 @@ function c511001135.initial_effect(c)
 	e4:SetTarget(c511001135.crystaltg)
 	e4:SetOperation(c511001135.crystalop)
 	c:RegisterEffect(e4)
-	--add setcode
-	local e5=Effect.CreateEffect(c)
-	e5:SetType(EFFECT_TYPE_SINGLE)
-	e5:SetProperty(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_UNCOPYABLE)
-	e5:SetCode(EFFECT_ADD_SETCODE)
-	e5:SetValue(0x3034)
-	c:RegisterEffect(e5)
 end
 function c511001135.descon(e)
 	return not Duel.IsEnvironment(12644061)
