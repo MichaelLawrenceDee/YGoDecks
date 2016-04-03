@@ -97,12 +97,12 @@ function c511000262.dmgtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
 	local Dmg=e:GetHandler():GetDefence()
 	Duel.SetTargetPlayer(1-tp)
-	Duel.SetTargetParam(Dmg)
+	Duel.SetTargetParam(Dmg/2)
 	Duel.SetOperationInfo(0,CATEGORY_DAMAGE,nil,0,1-tp,Dmg)
 end
 function c511000262.dmgop(e,tp,eg,ep,ev,re,r,rp)
-	local p,d=Duel.GetChainInfo(0,CHAININFO_TARGET_PLAYER,CHAININFO_TARGET_PARAM)
-	Duel.Damage(p,d,REASON_EFFECT)
+	local p=Duel.GetChainInfo(0,CHAININFO_TARGET_PLAYER)
+	Duel.Damage(p,e:GetHandler():GetDefence()/2,REASON_EFFECT)
 end
 function c511000262.nofieldcon(e)
 	local f1=Duel.GetFieldCard(0,LOCATION_SZONE,5)

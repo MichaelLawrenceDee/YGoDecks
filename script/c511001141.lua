@@ -25,6 +25,7 @@ function c511001141.rop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local ct=eg:FilterCount(Card.IsControler,nil,1-tp)
 	local ect=c:GetEffectCount(511001141)
+	if ect>=15 then return end
 	if 15-ect<ct then
 		ct=15-ct
 	end
@@ -45,6 +46,7 @@ function c511001141.rop(e,tp,eg,ep,ev,re,r,rp)
 		e2:SetReset(RESET_EVENT+0x1fe0000)
 		c:RegisterEffect(e2)
 	end
+	Duel.BreakEffect()
 end
 function c511001141.val(e,c)
 	local ect=e:GetHandler():GetEffectCount(511001141)

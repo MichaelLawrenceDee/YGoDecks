@@ -46,17 +46,6 @@ function c511000242.initial_effect(c)
 	e7:SetCondition(c511000242.nofieldcon)
 	e7:SetOperation(c511000242.nofieldop)
 	c:RegisterEffect(e7)
-	--When Leave the Field, Return the Control to Your Opponent
-	local e8=Effect.CreateEffect(c)
-	e8:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_CONTINUOUS)
-	e8:SetCode(EVENT_LEAVE_FIELD)
-	e8:SetOperation(c511000242.returnop)
-	c:RegisterEffect(e8)
-	local e9=Effect.CreateEffect(c)
-	e9:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_CONTINUOUS)
-	e9:SetCode(EVENT_LEAVE_FIELD)
-	e9:SetOperation(c511000242.destroyop)
-	c:RegisterEffect(e9)
 	--direct attack
 	local e10=Effect.CreateEffect(c)
 	e10:SetType(EFFECT_TYPE_FIELD)
@@ -106,7 +95,7 @@ function c511000242.controltg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 end
 function c511000242.controlop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
-	if tc:IsRelateToEffect(e) and tc:IsFaceup() and not Duel.GetControl(tc,tp) then
+	if tc and tc:IsRelateToEffect(e) and tc:IsFaceup() and not Duel.GetControl(tc,tp,PHASE_END,1) then
 		if not tc:IsImmuneToEffect(e) and tc:IsAbleToChangeControler() then
 			Duel.Destroy(tc,REASON_EFFECT)
 		end
@@ -127,38 +116,4 @@ function c511000242.nofieldop(e,tp,eg,ep,ev,re,r,rp)
 	e1:SetCondition(c511000242.nofieldcon)
 	e1:SetReset(RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END)
 	c:RegisterEffect(e1)
-end
-function c511000242.returnfilter(c,tp)
-	return c:IsPreviousPosition(POS_FACEUP) and c:IsPreviousLocation(LOCATION_MZONE,1,nil)
-end
-function c511000242.returnop(e,tp,eg,ep,ev,re,r,rp)
-	local g=Duel.GetMatchingGroup(c511000242.returnfilter,tp,LOCATION_MZONE,0,nil)
-	local field=Duel.GetLocationCount(1-tp,LOCATION_MZONE)
-	if field>=g:GetCount() then
-	local tc=g:GetFirst()
-	while tc do
-	Duel.GetControl(tc,1-tp)
-	tc=g:GetNext()
-	end
-else
-	Duel.Hint(HINT_SELECTMSG,1-tp,HINTMSG_CONTROL)
-	local sg=g:Select(1-tp,field,field,nil)
-	local tc=sg:GetFirst()
-	while tc do
-	Duel.GetControl(tc,1-tp)
-	tc=sg:GetNext()
-	Duel.BreakEffect()
-	end
-end
-end
-function c511000242.destroyfilter(c,tp)
-	return c:IsPreviousPosition(POS_FACEUP) and c:IsPreviousLocation(LOCATION_MZONE,1,nil) and c:IsLocation(LOCATION_MZONE) and c:IsControler(tp)
-end
-function c511000242.destroyop(e,tp,eg,ep,ev,re,r,rp)
-	local g=Duel.GetMatchingGroup(c511000242.destroyfilter,tp,LOCATION_MZONE,0,nil)
-	local tc=g:GetFirst()
-	while tc do
-	Duel.Destroy(tc,REASON_EFFECT)
-	tc=g:GetNext()
-end
 end
