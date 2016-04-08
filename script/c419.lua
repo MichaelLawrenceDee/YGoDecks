@@ -54,6 +54,9 @@ end
 function c419.amfilter(c)
 	return c:GetEquipGroup():IsExists(Card.IsHasEffect,1,nil,511001175)
 end
+function c419.doubfilter(c,xyz)
+	return c:IsHasEffect(511001225) and (not c.xyzlimit2 or c.xyzlimit2(xyz))
+end
 function c419.subfilter(c,rk,xyz,xg)
 	return (c:IsFaceup() and c:GetFlagEffect(511000189)==rk	and xg:IsExists(c419.subfilterchk,1,nil,xyz)) or c:IsHasEffect(511002116)
 end
@@ -69,7 +72,7 @@ function c419.xyzcon(e,c,og)
 	local xg=e:GetLabelObject()
 	local mg2=Duel.GetMatchingGroup(c419.subfilter,tp,LOCATION_ONFIELD,0,nil,rk,c,xg)
 	mg:Merge(mg2)
-	if not mg:IsExists(c419.amfilter,1,nil) and not mg:IsExists(Card.IsHasEffect,1,nil,511001225)
+	if not mg:IsExists(c419.amfilter,1,nil) and not mg:IsExists(c419.doubfilter,1,nil,c)
 		and not mg:IsExists(c419.subfilter,1,nil,rk,c,xg) 
 		and not mg:IsExists(Card.IsHasEffect,1,nil,511002116) then return false end
 	local g=mg:Filter(c419.amfilter,nil)
@@ -81,7 +84,7 @@ function c419.xyzcon(e,c,og)
 		g:Merge(eq)
 		tce=g:GetNext()
 	end
-	local dob=mg:Filter(Card.IsHasEffect,nil,511001225)
+	local dob=mg:Filter(c419.doubfilter,nil,c)
 	local dobc=dob:GetFirst()
 	while dobc do
 		ct=ct-1
@@ -112,7 +115,7 @@ function c419.xyzop(e,tp,eg,ep,ev,re,r,rp,c,og)
 		elseif gc and gc:GetEquipTarget()~=nil then
 			eqg:AddCard(gc)
 		end
-		if gc and gc:IsHasEffect(511001225) and ct>0 and (mg:GetCount()<=1 or Duel.SelectYesNo(tp,aux.Stringid(61965407,0))) then
+		if gc and c419.doubfilter(gc,c) and ct>0 and (mg:GetCount()<=1 or Duel.SelectYesNo(tp,aux.Stringid(61965407,0))) then
 			ct=ct-1
 		end
 		if gc and gc:IsHasEffect(511002116) then

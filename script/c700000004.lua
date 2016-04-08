@@ -89,7 +89,7 @@ end
 function c700000004.atktg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(c700000004.atkfilter,tp,LOCATION_MZONE,0,1,nil) 
 		and e:GetHandler():GetFlagEffect(700000004)==0 end
-	e:GetHandler():RegisterFlagEffect(700000004,RESET_PHASE+RESET_DAMAGE_CAL,0,1)
+	e:GetHandler():RegisterFlagEffect(700000004,RESET_PHASE+PHASE_DAMAGE_CAL,0,1)
 end
 function c700000004.atkop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()

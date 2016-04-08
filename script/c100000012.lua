@@ -36,7 +36,7 @@ function c100000012.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	end
 end
 function c100000012.cfilter(c)
-	return (c:IsSetCard(0x4a) or c:IsCode(74530899)) and c:IsType(TYPE_MONSTER) and c:IsDiscardable()
+	return (c:IsSetCard(0x4a) or c:IsCode(74530899) or c:IsCode(8967776)) and c:IsType(TYPE_MONSTER) and c:IsDiscardable()
 end
 function c100000012.drcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(c100000012.cfilter,tp,LOCATION_HAND,0,1,e:GetHandler()) end

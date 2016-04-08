@@ -87,7 +87,7 @@ function c100000014.spcon(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.GetTurnPlayer()==tp
 end
 function c100000014.spfilter(c,e,tp)
-	return (c:IsSetCard(0x4a) or c:IsCode(74530899)) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
+	return (c:IsSetCard(0x4a) or c:IsCode(74530899) or c:IsCode(8967776)) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end
 function c100000014.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0 
@@ -107,7 +107,7 @@ function c100000014.drcon(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.GetTurnPlayer()~=tp
 end
 function c100000014.cosfilter(c)
-	return (c:IsSetCard(0x4a) or c:IsCode(74530899)) and c:IsType(TYPE_MONSTER) and c:IsDiscardable()
+	return (c:IsSetCard(0x4a) or c:IsCode(74530899) or c:IsCode(8967776)) and c:IsType(TYPE_MONSTER) and c:IsDiscardable()
 end
 function c100000014.drcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(c100000014.cosfilter,tp,LOCATION_HAND,0,1,e:GetHandler()) end
@@ -146,5 +146,5 @@ function c100000014.sephop(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function c100000014.etarget(e,c)
-	return (c:IsSetCard(0x4a) or c:IsCode(74530899)) and c:IsFaceup()
+	return (c:IsSetCard(0x4a) or c:IsCode(74530899) or c:IsCode(8967776)) and c:IsFaceup()
 end

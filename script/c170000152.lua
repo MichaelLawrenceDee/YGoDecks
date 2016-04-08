@@ -49,7 +49,7 @@ function c170000152.activate(e,tp,eg,ep,ev,re,r,rp)
 	Duel.BreakEffect()
 	local sc=sg:GetFirst()
 	if sg then
-		sc:SetMaterial(Group.FromCards(tc))
+		sc:SetMaterial(tg)
 		Duel.SendtoGrave(tg,REASON_EFFECT+REASON_MATERIAL+REASON_FUSION)
 		Duel.BreakEffect()
 		Duel.SpecialSummon(sc,SUMMON_TYPE_FUSION,tp,tp,false,false,POS_FACEUP)
