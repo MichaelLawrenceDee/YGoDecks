@@ -2,21 +2,140 @@
 function c419.initial_effect(c)
 	if not c419.global_check then
 		c419.global_check=true
-		--register
+		--register for graveyard synchro
+		local e1=Effect.CreateEffect(c)
+		e1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
+		e1:SetCode(EVENT_ADJUST)
+		e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
+		e1:SetOperation(c419.op1)
+		Duel.RegisterEffect(e1,0)
+		--register for xyz
 		local e2=Effect.CreateEffect(c)
 		e2:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
 		e2:SetCode(EVENT_ADJUST)
 		e2:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
-		e2:SetOperation(c419.op)
+		e2:SetOperation(c419.op2)
 		Duel.RegisterEffect(e2,0)
+		--register for xyz synchro
+		local e3=Effect.CreateEffect(c)
+		e3:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
+		e3:SetCode(EVENT_ADJUST)
+		e3:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
+		e3:SetOperation(c419.op3)
+		Duel.RegisterEffect(e3,0)
 	end
 end
-function c419.filterx(c)
+function c419.op1(e,tp,eg,ep,ev,re,r,rp)
+	local c=e:GetHandler()
+	local g=Duel.GetMatchingGroup(Card.IsType,0,LOCATION_GRAVE,LOCATION_GRAVE,nil,TYPE_SYNCHRO)
+	local tc=g:GetFirst()
+	while tc do
+		if tc:GetFlagEffect(2081)==0 then
+			local e1=Effect.CreateEffect(tc)
+			e1:SetType(EFFECT_TYPE_FIELD)
+			e1:SetDescription(aux.Stringid(64382841,2))
+			e1:SetCode(EFFECT_SPSUMMON_PROC)
+			e1:SetProperty(EFFECT_FLAG_UNCOPYABLE+EFFECT_FLAG_IGNORE_IMMUNE)
+			e1:SetRange(LOCATION_GRAVE)
+			e1:SetValue(SUMMON_TYPE_SYNCHRO)
+			e1:SetCondition(c419.syncon)
+			e1:SetOperation(c419.synop)
+			e1:SetReset(RESET_EVENT+EVENT_ADJUST,1)
+			tc:RegisterEffect(e1)
+			tc:RegisterFlagEffect(2081,RESET_EVENT+EVENT_ADJUST,0,1) 	
+		end
+		tc=g:GetNext()
+	end
+end
+function c419.syncon(e,c,smat,mg)
+	if c==nil then return true end
+	local code=c:GetOriginalCode()
+	local mt=_G["c" .. code]
+	local tuner=Duel.GetMatchingGroup(c419.gvmatfilter1,tp,LOCATION_MZONE,LOCATION_MZONE,nil,c)
+	local nontuner=Duel.GetMatchingGroup(c419.gvmatfilter2,tp,LOCATION_MZONE,LOCATION_MZONE,nil,c)
+	if not mt.sync then return false end
+	return tuner:IsExists(c419.gvlvfilter,1,nil,c,nontuner)
+end
+function c419.gvlvfilter(c,syncard,nontuner)
+	local code=syncard:GetOriginalCode()
+	local mt=_G["c" .. code]
+	local lv=c:GetSynchroLevel(syncard)
+	local slv=syncard:GetLevel()
+	local nt=nontuner:Filter(Card.IsCanBeSynchroMaterial,nil,syncard,c)
+	return mt.minntct and mt.maxntct and slv-lv>0 and nt:CheckWithSumEqual(Card.GetSynchroLevel,slv-lv,mt.minntct,mt.maxntct,syncard)
+end
+function c419.gvlvfilter2(c,syncard,tuner)
+	local code=syncard:GetOriginalCode()
+	local mt=_G["c" .. code]
+	local lv=c:GetSynchroLevel(syncard)
+	local slv=syncard:GetLevel()
+	local nt=tuner:Filter(Card.IsCanBeSynchroMaterial,nil,syncard,c)
+	return mt.minntct and mt.maxntct and lv+slv>0 and nt:CheckWithSumEqual(Card.GetSynchroLevel,lv+slv,mt.minntct,mt.maxntct,syncard)
+end
+function c419.gvmatfilter1(c,syncard)
+	local code=syncard:GetOriginalCode()
+	local mt=_G["c" .. code]
+	return c:IsType(TYPE_TUNER) and c:IsHasEffect(511002081) and c:IsCanBeSynchroMaterial(syncard) 
+		and mt.tuner_filter and mt.tuner_filter(c)
+end
+function c419.gvmatfilter2(c,syncard)
+	local code=syncard:GetOriginalCode()
+	local mt=_G["c" .. code]
+	return c:IsNotTuner() and c:IsCanBeSynchroMaterial(syncard) 
+		and mt.nontuner_filter and mt.nontuner_filter(c)
+end
+function c419.synop(e,tp,eg,ep,ev,re,r,rp,c,smat,mg)
+	local code=c:GetOriginalCode()
+	local mt=_G["c" .. code]
+	local tuner=Duel.GetMatchingGroup(c419.gvmatfilter1,tp,LOCATION_MZONE,LOCATION_MZONE,nil,c)
+	local nontuner=Duel.GetMatchingGroup(c419.gvmatfilter2,tp,LOCATION_MZONE,LOCATION_MZONE,nil,c)
+	local mat1
+	if c:IsSetCard(0x301) then
+		nontuner=nontuner:Filter(c419.gvlvfilter2,nil,c,tuner)
+		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SMATERIAL)
+		mat1=nontuner:Select(tp,1,1,nil)
+		local tlv=mat1:GetFirst():GetSynchroLevel(c)
+		tuner=tuner:Filter(Card.IsCanBeSynchroMaterial,nil,c,mat1:GetFirst())
+		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SMATERIAL)
+		local mat2=tuner:SelectWithSumEqual(tp,Card.GetSynchroLevel,c:GetLevel()+tlv,mt.minntct,mt.maxntct,c)
+		mat1:Merge(mat2)
+	elseif mt.dobtun then
+		mat1=Group.CreateGroup()
+		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SMATERIAL)
+		local t1=tuner:FilterSelect(tp,c419.dtfilter1,1,1,nil,c,c:GetLevel(),tuner,nontuner)
+		tuner1=t1:GetFirst()
+		mat1:AddCard(tuner1)
+		local lv1=tuner1:GetSynchroLevel(c)
+		local f1=tuner1.tuner_filter
+		local t2=nil
+		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SMATERIAL)
+		t2=tuner:FilterSelect(tp,c419.dtfilter2,1,1,tuner1,c,c:GetLevel()-lv1,nontuner,f1,tuner1)
+		local tuner2=t2:GetFirst()
+		mat1:AddCard(tuner2)
+		local lv2=tuner2:GetSynchroLevel(c)
+		local f2=tuner2.tuner_filter
+		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SMATERIAL)
+		local m3=nontuner:FilterSelect(tp,c419.dtfilter3,1,1,nil,c,c:GetLevel()-lv1-lv2,f1,f2)
+		mat1:Merge(m3)
+	else
+		tuner=tuner:Filter(c419.gvlvfilter,nil,c,nontuner)
+		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SMATERIAL)
+		mat1=tuner:Select(tp,1,1,nil)
+		local tlv=mat1:GetFirst():GetSynchroLevel(c)
+		nontuner=nontuner:Filter(Card.IsCanBeSynchroMaterial,nil,c,mat1:GetFirst())
+		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SMATERIAL)
+		local mat2=nontuner:SelectWithSumEqual(tp,Card.GetSynchroLevel,c:GetLevel()-tlv,mt.minntct,mt.maxntct,c)
+		mat1:Merge(mat2)
+	end
+	c:SetMaterial(mat1)
+	Duel.SendtoGrave(mat1,REASON_MATERIAL+REASON_SYNCHRO)
+end
+function c419.filterxyz(c)
 	return c:IsType(TYPE_XYZ) and c.xyz_count and c.xyz_count>0
 end
-function c419.op(e,tp,eg,ep,ev,re,r,rp)
+function c419.op2(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	local g=Duel.GetMatchingGroup(c419.filterx,c:GetControler(),LOCATION_EXTRA,LOCATION_EXTRA,nil)
+	local g=Duel.GetMatchingGroup(c419.filterxyz,c:GetControler(),LOCATION_EXTRA,LOCATION_EXTRA,nil)
 	local tc=g:GetFirst()
 	while tc do
 		local xg=Group.CreateGroup()
@@ -33,7 +152,7 @@ function c419.op(e,tp,eg,ep,ev,re,r,rp)
 		if tc:GetFlagEffect(419)==0 then
 			local e1=Effect.CreateEffect(tc)
 			e1:SetType(EFFECT_TYPE_FIELD)
-			e1:SetDescription(aux.Stringid(71921856,0))
+			e1:SetDescription(aux.Stringid(64382841,0))
 			e1:SetCode(EFFECT_SPSUMMON_PROC)
 			e1:SetProperty(EFFECT_FLAG_UNCOPYABLE)
 			e1:SetRange(LOCATION_EXTRA)
@@ -143,4 +262,135 @@ function c419.xyzop(e,tp,eg,ep,ev,re,r,rp,c,og)
 	end
 	c:SetMaterial(g1)
 	Duel.Overlay(c,g1)
+end
+function c419.op3(e,tp,eg,ep,ev,re,r,rp)
+	local c=e:GetHandler()
+	local g=Duel.GetMatchingGroup(Card.IsType,0,LOCATION_EXTRA,LOCATION_EXTRA,nil,TYPE_SYNCHRO)
+	local tc=g:GetFirst()
+	while tc do
+		if tc:GetFlagEffect(538)==0 then
+			local e1=Effect.CreateEffect(tc)
+			e1:SetType(EFFECT_TYPE_FIELD)
+			e1:SetDescription(aux.Stringid(64382841,1))
+			e1:SetCode(EFFECT_SPSUMMON_PROC)
+			e1:SetProperty(EFFECT_FLAG_UNCOPYABLE+EFFECT_FLAG_IGNORE_IMMUNE)
+			e1:SetRange(LOCATION_EXTRA)
+			e1:SetValue(SUMMON_TYPE_SYNCHRO)
+			e1:SetCondition(c419.syncon2)
+			e1:SetOperation(c419.synop2)
+			e1:SetReset(RESET_EVENT+EVENT_ADJUST,1)
+			tc:RegisterEffect(e1)
+			tc:RegisterFlagEffect(538,RESET_EVENT+EVENT_ADJUST,0,1) 	
+		end
+		tc=g:GetNext()
+	end
+end
+function c419.syncon2(e,c,tuner,mg)
+	if c==nil then return true end
+	local code=c:GetOriginalCode()
+	local mt=_G["c" .. code]
+	if c:IsType(TYPE_PENDULUM) and c:IsFaceup() then return false end
+	local code=c:GetOriginalCode()
+	local mt=_G["c" .. code]
+	local tp=c:GetControler()
+	local minct=2
+	local g1=nil
+	local g2=nil
+	if mg then
+		g1=mg:Filter(c419.matfilter1,nil,c)
+		g2=mg:Filter(c419.matfilter2,nil,c)
+	else
+		g1=Duel.GetMatchingGroup(c419.matfilter1,tp,LOCATION_MZONE,LOCATION_MZONE,nil,c)
+		g2=Duel.GetMatchingGroup(c419.matfilter2,tp,LOCATION_MZONE,LOCATION_MZONE,nil,c)
+	end
+	local pe=Duel.IsPlayerAffectedByEffect(tp,EFFECT_MUST_BE_SMATERIAL)
+	local lv=c:GetLevel()
+	if tuner then
+		local tlv=tuner:GetSynchroLevel(c)
+		if lv-tlv<=0 then return false end
+		return g2:CheckWithSumEqual(c419.xyzlvfilter,lv-tlv,mt.minntct,mt.maxntct,c)
+	end
+	if not pe then
+		return g1:IsExists(c419.synfilter,1,nil,c,lv,g2)
+	else
+		return c419.synfilter(pe:GetOwner(),c,lv,g2)
+	end
+end
+function c419.synfilter(c,syncard,lv,g2)
+	local code=syncard:GetOriginalCode()
+	local mt=_G["c" .. code]
+	local tlv
+	if c:GetLevel()>0 then tlv=c:GetSynchroLevel(syncard)
+		elseif c:IsHasEffect(511000538) then tlv=c:GetRank()
+		else tlv=0 end
+	if lv-tlv<=0 then return false end
+	return mt.minntct and mt.maxntct and lv-tlv>0 and g2:CheckWithSumEqual(c419.xyzlvfilter,lv-tlv,mt.minntct,mt.maxntct,syncard)
+end
+function c419.xyzlvfilter(c,sync)
+	if c:GetLevel()>0 then return c:GetSynchroLevel(sync)
+	elseif c:GetRank()>0 and c:IsHasEffect(511000538) then return c:GetRank()
+	else return 0 end
+end
+function c419.matfilter1(c,syncard)
+	local code=syncard:GetOriginalCode()
+	local mt=_G["c" .. code]
+	return c:IsType(TYPE_TUNER) and c419.xyzsyncfilter(c,syncard) and mt.tuner_filter and mt.tuner_filter(c)
+end
+function c419.matfilter2(c,syncard)
+	local code=syncard:GetOriginalCode()
+	local mt=_G["c" .. code]
+	return c:IsNotTuner() and c419.xyzsyncfilter(c,syncard) and mt.nontuner_filter and mt.nontuner_filter(c)
+end
+function c419.xyzsyncfilter(c,syncard,mat)
+	if mat then
+		return c:IsCanBeSynchroMaterial(syncard,mat) or c:IsHasEffect(511000538)
+	else
+		return c:IsCanBeSynchroMaterial(syncard) or c:IsHasEffect(511000538)
+	end
+end
+function c419.synop2(e,tp,eg,ep,ev,re,r,rp,c,tuner,mg)
+	local code=c:GetOriginalCode()
+	local mt=_G["c" .. code]
+	local g=Group.CreateGroup()
+	local g1=nil
+	local g2=nil
+	if mg then
+		g1=mg:Filter(c419.matfilter1,nil,c)
+		g2=mg:Filter(c419.matfilter2,nil,c)
+	else
+		g1=Duel.GetMatchingGroup(c419.matfilter1,tp,LOCATION_MZONE,LOCATION_MZONE,nil,c)
+		g2=Duel.GetMatchingGroup(c419.matfilter2,tp,LOCATION_MZONE,LOCATION_MZONE,nil,c)
+	end
+	local pe=Duel.IsPlayerAffectedByEffect(tp,EFFECT_MUST_BE_SMATERIAL)
+	local lv=c:GetLevel()
+	if tuner then
+		g:AddCard(tuner)
+		local lv1
+		if tuner:GetLevel()>0 then lv1=tuner:GetSynchroLevel(c)
+		elseif c:IsHasEffect(511000538) then lv1=tuner:GetRank()
+		else lv1=0 end
+		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SMATERIAL)
+		local m2=g2:SelectWithSumEqual(tp,c419.xyzlvfilter,lv-lv1,mt.minntct,mt.maxntct,c)
+		g:Merge(m2)
+	else
+		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SMATERIAL)
+		local tuner=nil
+		if not pe then
+			local t1=g1:FilterSelect(tp,c419.synfilter,1,1,nil,c,lv,g2)
+			tuner=t1:GetFirst()
+		else
+			tuner=pe:GetOwner()
+			Group.FromCards(tuner):Select(tp,1,1,nil)
+		end
+		g:AddCard(tuner)
+		local lv1
+		if tuner:GetLevel()>0 then lv1=tuner:GetSynchroLevel(c)
+		elseif c:IsHasEffect(511000538) then lv1=tuner:GetRank()
+		else lv1=0 end
+		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SMATERIAL)
+		local m2=g2:SelectWithSumEqual(tp,c419.xyzlvfilter,lv-lv1,mt.minntct,mt.maxntct,c)
+		g:Merge(m2)
+	end
+	c:SetMaterial(g)
+	Duel.SendtoGrave(g,REASON_MATERIAL+REASON_SYNCHRO)
 end

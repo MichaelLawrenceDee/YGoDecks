@@ -69,6 +69,11 @@ function c511002096.xyzop(e,tp,eg,ep,ev,re,r,rp)
 		e5:SetCode(511002096)
 		e5:SetReset(RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END)
 		tc:RegisterEffect(e5)
+		local e6=Effect.CreateEffect(e:GetHandler())
+		e6:SetType(EFFECT_TYPE_SINGLE)
+		e6:SetCode(511000538)
+		e6:SetReset(RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END)
+		tc:RegisterEffect(e6)
 	end
 end
 function c511002096.xyzlv(e,c,rc)

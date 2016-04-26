@@ -11,9 +11,6 @@ function c511000292.initial_effect(c)
 	e1:SetOperation(c511000292.operation)
 	c:RegisterEffect(e1)
 end
-function c511000292.disfilter(c)
-	return c:IsFaceup() and c:IsSetCard(0xb) and c:GetCode()~=511000292
-end
 function c511000292.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	local g=Duel.GetMatchingGroup(Card.IsDiscardable,tp,LOCATION_HAND,0,nil)
 	if chk==0 then return Duel.GetFieldGroupCount(tp,LOCATION_HAND,0)==g:GetCount() end

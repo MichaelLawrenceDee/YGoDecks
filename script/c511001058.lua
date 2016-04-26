@@ -54,7 +54,10 @@ end
 function c511001058.regop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local tc=c:GetFirstCardTarget()
-	if not tc or not tc:IsLocation(LOCATION_MZONE) then return end
+	if not tc or not tc:IsLocation(LOCATION_MZONE) then 
+		c:ResetFlagEffect(511000189)
+		return
+	end
 	if c:GetFlagEffect(511000189)>0 and c:GetFlagEffect(511000189)~=tc:GetLevel() then
 		c:ResetFlagEffect(511000189)
 	end
