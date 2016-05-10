@@ -10,6 +10,7 @@ function c100000536.initial_effect(c)
 	e1:SetOperation(c100000536.activate)
 	c:RegisterEffect(e1)
 end
+c100000536.dark_magician_list=true
 function c100000536.cfilter(c,tp)
 	return c:IsLocation(LOCATION_MZONE) and c:IsFaceup() and c:IsCode(46986414) and c:IsControler(tp)
 end

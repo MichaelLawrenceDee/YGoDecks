@@ -10,6 +10,7 @@ function c100000104.initial_effect(c)
 	e1:SetOperation(c100000104.activate)
 	c:RegisterEffect(e1)
 end
+c100000104.dark_magician_list=true
 function c100000104.filter1(c)
 	return c:IsFaceup() and c:IsCode(46986414)
 end

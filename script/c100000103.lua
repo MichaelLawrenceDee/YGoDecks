@@ -13,6 +13,7 @@ function c100000103.initial_effect(c)
 	c:RegisterEffect(e1)
 	Duel.AddCustomActivityCounter(100000103,ACTIVITY_ATTACK,c100000103.counterfilter)
 end
+c100000103.dark_magician_list=true
 function c100000103.counterfilter(c)
     return not c:IsCode(46986414)
 end
