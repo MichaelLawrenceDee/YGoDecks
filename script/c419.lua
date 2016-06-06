@@ -177,7 +177,11 @@ function c419.doubfilter(c,xyz)
 	return c:IsHasEffect(511001225) and (not c.xyzlimit2 or c.xyzlimit2(xyz))
 end
 function c419.subfilter(c,rk,xyz,xg)
-	return (c:IsFaceup() and c:GetFlagEffect(511000189)==rk	and xg:IsExists(c419.subfilterchk,1,nil,xyz)) or c:IsHasEffect(511002116)
+	if c:IsLocation(LOCATION_GRAVE) then
+		return c:IsHasEffect(511002793) and xyz.xyz_filter(c) and c:IsCanBeXyzMaterial(xyz)
+	else
+		return (c:IsFaceup() and c:GetFlagEffect(511000189)==rk	and xg:IsExists(c419.subfilterchk,1,nil,xyz)) or c:IsHasEffect(511002116)
+	end
 end
 function c419.subfilterchk(c,xyz)
 	return xyz.xyz_filter(c)
@@ -189,7 +193,7 @@ function c419.xyzcon(e,c,og)
 	local ct=c.xyz_count
 	local mg=Duel.GetMatchingGroup(c419.mfilter,tp,LOCATION_MZONE,0,nil,rk,c)
 	local xg=e:GetLabelObject()
-	local mg2=Duel.GetMatchingGroup(c419.subfilter,tp,LOCATION_ONFIELD,0,nil,rk,c,xg)
+	local mg2=Duel.GetMatchingGroup(c419.subfilter,tp,LOCATION_ONFIELD+LOCATION_GRAVE,0,nil,rk,c,xg)
 	mg:Merge(mg2)
 	if not mg:IsExists(c419.amfilter,1,nil) and not mg:IsExists(c419.doubfilter,1,nil,c)
 		and not mg:IsExists(c419.subfilter,1,nil,rk,c,xg) 
@@ -218,7 +222,7 @@ function c419.xyzop(e,tp,eg,ep,ev,re,r,rp,c,og)
 	local ct=c.xyz_count
 	local mg=Duel.GetMatchingGroup(c419.mfilter,tp,LOCATION_MZONE,0,nil,rk,c)
 	local xg=e:GetLabelObject()
-	local mg2=Duel.GetMatchingGroup(c419.subfilter,tp,LOCATION_ONFIELD,0,nil,rk,c,xg)
+	local mg2=Duel.GetMatchingGroup(c419.subfilter,tp,LOCATION_ONFIELD+LOCATION_GRAVE,0,nil,rk,c,xg)
 	mg:Merge(mg2)
 	local g1=Group.CreateGroup()
 	g1:KeepAlive()
@@ -239,6 +243,9 @@ function c419.xyzop(e,tp,eg,ep,ev,re,r,rp,c,og)
 		end
 		if gc and gc:IsHasEffect(511002116) then
 			gc:RegisterFlagEffect(511002115,RESET_EVENT+0x1fe0000,0,0)
+		end
+		if gc and gc:IsHasEffect(511002793) then
+			gc:RegisterFlagEffect(511002794,nil,0,0)
 		end
 		mg:RemoveCard(gc)
 		g1:AddCard(gc)
