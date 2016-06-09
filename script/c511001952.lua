@@ -70,14 +70,14 @@ function c511001952.ntmatfilter(c,syncard)
 end
 function c511001952.synfilter1(c,lv,tuner,syncard)
 	local tlv=c:GetSynchroLevel(syncard)
-	if c:GetFlagEffect(100000147)==0 then	
-		return tuner:IsExists(c511001952.synfilter2,1,nil,lv+tlv,syncard)
+	if c:GetFlagEffect(100000147)==0 then
+		return c:IsLevelAbove(8) and tuner:IsExists(c511001952.synfilter2,1,nil,tlv,lv+tlv,syncard)
 	else
 		return tuner:IsExists(c511001952.synfilter2,1,nil,lv-tlv,syncard)
 	end	
 end
-function c511001952.synfilter2(c,lv,syncard)
-	return c:GetSynchroLevel(syncard)==lv
+function c511001952.synfilter2(c,lv,lv2,syncard)
+	return c:GetSynchroLevel(syncard)==lv or c:GetSynchroLevel(syncard)==lv2
 end
 function c511001952.syncon(e,c,tuner)
 	if c==nil then return true end
@@ -99,7 +99,7 @@ function c511001952.synop(e,tp,eg,ep,ev,re,r,rp,c,tuner)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SMATERIAL)
 	local t
 	if mat1:GetFlagEffect(100000147)==0 then
-		t=tun:FilterSelect(tp,c511001952.synfilter2,1,1,nil,12+lv1,c)
+		t=tun:FilterSelect(tp,c511001952.synfilter2,1,1,nil,12+lv1,lv1,c)
 	else
 		t=tun:FilterSelect(tp,c511001952.synfilter2,1,1,nil,12-lv1,c)
 	end
