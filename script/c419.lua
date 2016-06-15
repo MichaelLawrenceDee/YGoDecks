@@ -238,7 +238,7 @@ function c419.xyzop(e,tp,eg,ep,ev,re,r,rp,c,og)
 		elseif gc and gc:GetEquipTarget()~=nil then
 			eqg:AddCard(gc)
 		end
-		if gc and c419.doubfilter(gc,c) and ct>0 and (mg:GetCount()<=1 or Duel.SelectYesNo(tp,aux.Stringid(61965407,0))) then
+		if gc and c419.doubfilter(gc,c) and ct>0 and (mg:GetCount()<=ct or Duel.SelectYesNo(tp,aux.Stringid(61965407,0))) then
 			ct=ct-1
 		end
 		if gc and gc:IsHasEffect(511002116) then

@@ -26,7 +26,7 @@ function c511002106.activate(e,tp,eg,ep,ev,re,r,rp)
 	local tc=g:GetFirst()
 	if tc then
 		Duel.HintSelection(g)
-		tc:RegisterFlagEffect(511002106,RESET_EVENT+0x1fe0000+RESET_PHASE+RESET_END,0,1)
+		tc:RegisterFlagEffect(511002106,RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END,0,1)
 		local e1=Effect.CreateEffect(e:GetHandler())
 		e1:SetType(EFFECT_TYPE_SINGLE)
 		e1:SetCode(EFFECT_INDESTRUCTABLE_BATTLE)
