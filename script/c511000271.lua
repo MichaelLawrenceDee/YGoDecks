@@ -30,10 +30,10 @@ function c511000271.initial_effect(c)
 	local e5=e4:Clone()
 	e5:SetCode(EFFECT_UNRELEASABLE_NONSUM)
 	c:RegisterEffect(e5)
-	--negate
+	--Pos limit
 	local e6=Effect.CreateEffect(c)
 	e6:SetType(EFFECT_TYPE_EQUIP)
-	e6:SetCode(EFFECT_DISABLE)
+	e6:SetCode(EFFECT_CANNOT_CHANGE_POSITION)
 	c:RegisterEffect(e6)
 	--draw 2
 	local e7=Effect.CreateEffect(c)
@@ -46,17 +46,21 @@ function c511000271.initial_effect(c)
 	e7:SetTarget(c511000271.drtg)
 	e7:SetOperation(c511000271.drop)
 	c:RegisterEffect(e7)
+	local e8=Effect.CreateEffect(c)
+	e8:SetType(EFFECT_TYPE_EQUIP)
+	e8:SetCode(EFFECT_CANNOT_TRIGGER)
+	c:RegisterEffect(e8)
 end
 function c511000271.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	if chkc then return chkc:IsLocation(LOCATION_MZONE) and chkc:IsControler(tp) and chkc:IsFaceup() end
-	if chk==0 then return Duel.IsExistingTarget(Card.IsFaceup,tp,LOCATION_MZONE,0,1,nil) end
+	if chkc then return chkc:IsLocation(LOCATION_MZONE) and chkc:IsFaceup() end
+	if chk==0 then return Duel.IsExistingTarget(Card.IsFaceup,tp,LOCATION_MZONE,LOCATION_MZONE,1,nil) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_EQUIP)
-	Duel.SelectTarget(tp,Card.IsFaceup,tp,LOCATION_MZONE,0,1,1,nil)
+	Duel.SelectTarget(tp,Card.IsFaceup,tp,LOCATION_MZONE,LOCATION_MZONE,1,1,nil)
 	Duel.SetOperationInfo(0,CATEGORY_EQUIP,e:GetHandler(),1,0,0)
 end
 function c511000271.operation(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
-	if e:GetHandler():IsRelateToEffect(e) and tc:IsRelateToEffect(e) and tc:IsFaceup() then
+	if e:GetHandler():IsRelateToEffect(e) and tc and tc:IsRelateToEffect(e) and tc:IsFaceup() then
 		Duel.Equip(tp,e:GetHandler(),tc)
 	end
 end

@@ -15,21 +15,21 @@ end
 function c140000122.condition(e,tp,eg,ep,ev,re,r,rp)
 	local ph=Duel.GetCurrentPhase()
 	local g=eg:Filter(c140000122.cfilter,nil,tp)
-	return g:GetCount()==1 and Duel.GetTurnPlayer()~=tp and ph>=0x08 and ph<=0x20
+	return g:GetCount()==1
 end
 function c140000122.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return false end
-	if chk==0 then return Duel.IsExistingTarget(Card.IsFaceup,Duel.GetTurnPlayer(),LOCATION_MZONE,0,1,nil) 
-		and Duel.IsExistingTarget(nil,1-Duel.GetTurnPlayer(),LOCATION_MZONE,0,1,nil) end
+	if chk==0 then return Duel.IsExistingTarget(Card.IsFaceup,tp,0,LOCATION_MZONE,1,nil) 
+		and Duel.IsExistingTarget(nil,tp,LOCATION_MZONE,0,1,nil) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_FACEUP)
-	Duel.SelectTarget(tp,Card.IsFaceup,Duel.GetTurnPlayer(),LOCATION_MZONE,0,1,1,nil)
-	Duel.SelectTarget(tp,nil,1-Duel.GetTurnPlayer(),LOCATION_MZONE,0,1,1,nil)
+	Duel.SelectTarget(tp,Card.IsFaceup,tp,0,LOCATION_MZONE,1,1,nil)
+	Duel.SelectTarget(tp,nil,tp,LOCATION_MZONE,0,1,1,nil)
 end
 function c140000122.activate(e,tp,eg,ep,ev,re,r,rp)
 	local tg=Duel.GetChainInfo(0,CHAININFO_TARGET_CARDS)
 	local tc1=tg:GetFirst()
 	local tc2=tg:GetNext()
 	if not tc1 or not tc1:IsRelateToEffect(e) or not tc2 or not tc2:IsRelateToEffect(e) then return end
-	if tc1:IsControler(1-Duel.GetTurnPlayer()) then tc2,tc1=tc1,tc2 end
+	if tc1:IsControler(tp) then tc2,tc1=tc1,tc2 end
 	Duel.CalculateDamage(tc1,tc2)
 end
