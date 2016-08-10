@@ -87,7 +87,7 @@ function c511000308.plasmaop(e,tp,eg,ep,ev,re,r,rp,c)
 	Duel.Release(sg1,REASON_COST)
 end
 function c511000308.costfilter(c)
-	return c:IsCode(511000308) and c:IsAbleToGraveAsCost()
+	return c:IsCode(99357565) and c:IsAbleToGraveAsCost()
 end
 function c511000308.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(c511000308.costfilter,tp,LOCATION_HAND,0,1,nil) end
