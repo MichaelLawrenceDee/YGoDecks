@@ -2,7 +2,7 @@
 function c511002013.initial_effect(c)
 	--fusion material
 	c:EnableReviveLimit()
-	aux.AddFusionProcCode2(c,511002011,511002012,true,true)
+	aux.AddFusionProcFun2(c,aux.FilterBoolFunction(Card.IsFusionSetCard,0x1220),aux.FilterBoolFunction(Card.IsFusionSetCard,0x2220),true)
 	--atkdown
 	local e1=Effect.CreateEffect(c)
 	e1:SetCategory(CATEGORY_ATKCHANGE)
