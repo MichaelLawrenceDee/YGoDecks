@@ -17,7 +17,7 @@ function c120000016.initial_effect(c)
 	e2:SetProperty(EFFECT_FLAG_OATH)
 	e2:SetTarget(aux.TargetBoolFunction(Card.IsCode,99267150))
 	e2:SetTargetRange(LOCATION_MZONE,LOCATION_MZONE)
-	e2:SetReset(RESET_PHASE+RESET_END)
+	e2:SetReset(RESET_PHASE+PHASE_END)
 	c:RegisterEffect(e2)
 end
 c120000016.fit_monster={99267150}
@@ -114,7 +114,7 @@ function c120000016.activate(e,tp,eg,ep,ev,re,r,rp)
 	e1:SetProperty(EFFECT_FLAG_OATH)
 	e1:SetTarget(aux.TargetBoolFunction(Card.IsCode,99267150))
 	e1:SetTargetRange(LOCATION_MZONE,LOCATION_MZONE)
-	e1:SetReset(RESET_PHASE+RESET_END)
+	e1:SetReset(RESET_PHASE+PHASE_END)
 	Duel.RegisterEffect(e1,tp)
 	end
 end

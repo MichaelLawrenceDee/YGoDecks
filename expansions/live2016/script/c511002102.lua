@@ -56,10 +56,10 @@ function c511002102.operation(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function c511002102.postg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return e:GetHandler():GetEquipTarget():IsDefencePos() end
+	if chk==0 then return e:GetHandler():GetEquipTarget():IsDefensePos() end
 end
 function c511002102.atkfilter(c)
-	return c:IsPosition(POS_FACEUP_DEFENCE) and c:IsType(TYPE_XYZ)
+	return c:IsPosition(POS_FACEUP_DEFENSE) and c:IsType(TYPE_XYZ)
 end
 function c511002102.posop(e,tp,eg,ep,ev,re,r,rp)
 	local eq=e:GetHandler():GetEquipTarget()

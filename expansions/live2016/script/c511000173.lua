@@ -3,10 +3,10 @@ function c511000173.initial_effect(c)
 	--attack
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_FIELD)
-	e1:SetCode(EFFECT_SPSUMMON_PROC_G)
+	e1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+	e1:SetCode(EFFECT_BP_FIRST_TURN)
 	e1:SetRange(LOCATION_MZONE)
-	e1:SetCondition(c511000173.con)
-	e1:SetOperation(c511000173.op)
+	e1:SetTargetRange(1,0)
 	c:RegisterEffect(e1)
 	--reg
 	local e2=Effect.CreateEffect(c)
@@ -24,24 +24,23 @@ function c511000173.initial_effect(c)
 	e3:SetCost(c511000173.poscost)
 	e3:SetOperation(c511000173.posop)
 	c:RegisterEffect(e3)
-end
-function c511000173.con(e,c,og)
-	if c==nil then return true end
-	local ct=c:GetEffectCount(EFFECT_EXTRA_ATTACK)
-	return Duel.GetTurnCount()==1 and c:GetFlagEffect(511000173)<=ct
-end
-function c511000173.op(e,tp,eg,ep,ev,re,r,rp,c,sg,og)
-	local c=e:GetHandler()
-	if Duel.GetFieldGroupCount(tp,0,LOCATION_MZONE)==0 then
-		Duel.Damage(1-tp,c:GetAttack(),REASON_BATTLE)
-		Duel.RaiseEvent(c,EVENT_BATTLE_DAMAGE,e,REASON_BATTLE,1-tp,tp,c:GetAttack())
-		Duel.RaiseEvent(c,EVENT_DAMAGE,e,REASON_BATTLE,1-tp,tp,c:GetAttack())
-		c:RegisterFlagEffect(511000174,RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END,0,1)
-	else
-		local tg=Duel.SelectMatchingCard(tp,nil,tp,0,LOCATION_MZONE,1,1,nil):GetFirst()
-		Duel.CalculateDamage(c,tg)
+	local e5=Effect.CreateEffect(c)
+	e5:SetType(EFFECT_TYPE_SINGLE)
+	e5:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+	e5:SetCode(511000173)
+	e5:SetRange(LOCATION_MZONE)
+	c:RegisterEffect(e5)
+	if not c511000173.global_check then
+		c511000173.global_check=true
+		local ge1=Effect.CreateEffect(c)
+		ge1:SetType(EFFECT_TYPE_FIELD)
+		ge1:SetCode(EFFECT_CANNOT_ATTACK)
+		ge1:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
+		ge1:SetTargetRange(LOCATION_MZONE,LOCATION_MZONE)
+		ge1:SetCondition(c511000173.atkcon)
+		ge1:SetTarget(c511000173.atktg)
+		Duel.RegisterEffect(ge1,0)
 	end
-	c:RegisterFlagEffect(511000173,RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END,0,1)
 end
 function c511000173.regop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
@@ -70,6 +69,12 @@ function c511000173.posop(e,tp,eg,ep,ev,re,r,rp)
 end
 function c511000173.desop(e,tp,eg,ep,ev,re,r,rp)
 	if e:GetHandler():IsAttackPos() then
-		Duel.ChangePosition(e:GetHandler(),POS_FACEUP_DEFENCE,POS_FACEDOWN_DEFENCE,0,0)
+		Duel.ChangePosition(e:GetHandler(),POS_FACEUP_DEFENSE,POS_FACEDOWN_DEFENSE,0,0)
 	end
+end
+function c511000173.atkcon(e)
+	return Duel.GetTurnCount()==1
+end
+function c511000173.atktg(e,c)
+	return not c:IsHasEffect(511000173)
 end

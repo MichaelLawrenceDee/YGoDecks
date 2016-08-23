@@ -35,6 +35,6 @@ function c100100129.activate(e,tp,eg,ep,ev,re,r,rp)
 	Duel.BreakEffect()
 	local sg=Duel.GetFieldGroup(tp,0,LOCATION_MZONE)
 	if sg:GetCount()>0 then
-		Duel.ChangePosition(sg,POS_FACEUP_DEFENCE,POS_FACEDOWN_DEFENCE,POS_FACEUP_ATTACK,POS_FACEUP_ATTACK)
+		Duel.ChangePosition(sg,POS_FACEUP_DEFENSE,POS_FACEDOWN_DEFENSE,POS_FACEUP_ATTACK,POS_FACEUP_ATTACK)
 	end
 end

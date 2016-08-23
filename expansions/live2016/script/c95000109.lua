@@ -30,25 +30,16 @@ function c95000109.initial_effect(c)
 	e4:SetTargetRange(1,1)
 	e4:SetTarget(c95000109.aclimit2)
 	c:RegisterEffect(e4)
-	--cannot activate
-	local e5=Effect.CreateEffect(c)
-	e5:SetType(EFFECT_TYPE_FIELD)
-	e5:SetCode(EFFECT_CANNOT_ACTIVATE)
-	e5:SetRange(LOCATION_SZONE)
-	e5:SetProperty(EFFECT_FLAG_PLAYER_TARGET+EFFECT_FLAG_UNCOPYABLE+EFFECT_FLAG_CANNOT_DISABLE)
-	e5:SetTargetRange(1,1)
-	e5:SetValue(c95000109.aclimit)
-	c:RegisterEffect(e5)
 	--~ Add Action Card
-	local e6=Effect.CreateEffect(c)
-	e6:SetDescription(aux.Stringid(95000109,0))
-	e6:SetType(EFFECT_TYPE_QUICK_O)
-	e6:SetRange(LOCATION_SZONE)
-	e6:SetCode(EVENT_FREE_CHAIN)
-	e6:SetCondition(c95000109.condition)
-	e6:SetTarget(c95000109.Acttarget)
-	e6:SetOperation(c95000109.operation)
-	c:RegisterEffect(e6)
+	local e5=Effect.CreateEffect(c)
+	e5:SetDescription(aux.Stringid(95000109,0))
+	e5:SetType(EFFECT_TYPE_QUICK_O)
+	e5:SetRange(LOCATION_SZONE)
+	e5:SetCode(EVENT_FREE_CHAIN)
+	e5:SetCondition(c95000109.condition)
+	e5:SetTarget(c95000109.Acttarget)
+	e5:SetOperation(c95000109.operation)
+	c:RegisterEffect(e5)
 	--Activate
 	local e6=Effect.CreateEffect(c)
 	e6:SetDescription(aux.Stringid(3701074,0))
@@ -71,7 +62,7 @@ function c95000109.initial_effect(c)
 	e7:SetValue(100)
 	c:RegisterEffect(e7)
 	local e8=e7:Clone()
-	e8:SetCode(EFFECT_UPDATE_DEFENCE)
+	e8:SetCode(EFFECT_UPDATE_DEFENSE)
 	c:RegisterEffect(e8)
 	--cannot change zone
 	local eb=Effect.CreateEffect(c)
@@ -89,60 +80,12 @@ function c95000109.initial_effect(c)
 	local ee=eb:Clone()
 	ee:SetCode(EFFECT_CANNOT_REMOVE)
 	c:RegisterEffect(ee)
-	--cheater check
-	local ef=Effect.CreateEffect(c)	
-	ef:SetProperty(EFFECT_FLAG_UNCOPYABLE+EFFECT_FLAG_CANNOT_DISABLE)
-	ef:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
-	ef:SetCode(EVENT_PREDRAW)
-	ef:SetCountLimit(1)
-	ef:SetRange(0xff)
-	ef:SetOperation(c95000109.Cheatercheck1)
-	c:RegisterEffect(ef)
-	-- Draw when removed
-	local ef3=Effect.CreateEffect(c)
-	ef3:SetDescription(aux.Stringid(44792253,0))
-	ef3:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_CONTINUOUS)
-	ef3:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
-	ef3:SetCode(EVENT_REMOVE)
-	ef3:SetCondition(c95000109.descon)
-	ef3:SetTarget(c95000109.drtarget)
-	ef3:SetOperation(c95000109.drop)
-	c:RegisterEffect(ef3)
-	
-	
-end
-function c95000109.Cheatercheck1(e,c)
-	if Duel.GetMatchingGroupCount(c95000109.Fieldfilter,tp,0,LOCATION_DECK+LOCATION_HAND,nil)>1
-	then
-	local WIN_REASON_ACTION_FIELD=0x55
-	Duel.Win(tp,WIN_REASON_ACTION_FIELD)
-	end
-	
-	local sg=Duel.GetMatchingGroup(c95000109.Fieldfilter,tp,LOCATION_DECK+LOCATION_HAND,LOCATION_DECK+LOCATION_HAND,nil)
-	Duel.Remove(sg,POS_FACEUP,REASON_EFFECT)
-end
 
-function c95000109.descon(e,tp,eg,ep,ev,re,r,rp)
-	return e:GetHandler():IsFaceup() and e:GetHandler():IsPreviousLocation(LOCATION_HAND)
-end
-function c95000109.drtarget(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	if chk==0 then return true end
-	Duel.SetTargetPlayer(tp)
-	Duel.SetTargetParam(1)
-	Duel.SetOperationInfo(0,CATEGORY_DRAW,nil,0,tp,1)
-end
-function c95000109.drop(e,tp,eg,ep,ev,re,r,rp)
-	local p,d=Duel.GetChainInfo(0,CHAININFO_TARGET_PLAYER,CHAININFO_TARGET_PARAM)
-	Duel.Draw(p,d,REASON_RULE)
-end
-function c95000109.Fieldfilter(c)
-	return c:IsSetCard(0xac2)
+	
+	
 end
 function c95000109.ctcon2(e,re)
 	return re:GetHandler()~=e:GetHandler()
-end
-function c95000109.aclimit(e,re,tp)
-	return re:GetHandler():IsType(TYPE_FIELD) and re:IsHasType(EFFECT_TYPE_ACTIVATE)
 end
 function c95000109.aclimit2(e,c)
 	return c:IsType(TYPE_FIELD)
@@ -168,10 +111,13 @@ local tc=Duel.GetFieldCard(tp,LOCATION_SZONE,5)
 			Duel.MoveToField(token,tp,1-tp,LOCATION_SZONE,POS_FACEUP,true)
 			Duel.SpecialSummonComplete()
 		end
+	else
+		local WIN_REASON_ACTION_FIELD=0x55
+		Duel.Win(1-tp,WIN_REASON_ACTION_FIELD)
 	end
-	-- if e:GetHandler():GetPreviousLocation()==LOCATION_HAND then
-		-- Duel.Draw(tp,1,REASON_RULE)
-	-- end
+	if e:GetHandler():GetPreviousLocation()==LOCATION_HAND then
+		Duel.Draw(tp,1,REASON_RULE)
+	end
 end
 -- Add Action Card
 function c95000109.Acttarget(e,tp,eg,ep,ev,re,r,rp,chk)
@@ -256,9 +202,8 @@ tableAction = {
 95000044,
 95000045,
 95000046,
-95000143
 } 
-tableAction_size=4
+tableAction_size=3
 
 function c95000109.cfilter(c,tp)
 	return c:IsFaceup() and c:IsSetCard(0x64) and c:IsControler(tp)

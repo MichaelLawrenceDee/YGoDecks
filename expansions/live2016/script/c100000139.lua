@@ -20,7 +20,7 @@ function c100000139.ctop(e,tp,eg,ep,ev,re,r,rp)
 	if Duel.GetAttackTarget() and Duel.GetAttackTarget()==e:GetHandler() then
 		local tc=Duel.GetAttacker()
 		if tc and tc:IsRelateToBattle() then
-			tc:AddCounter(0x90,1)
+			tc:AddCounter(0x1090,1)
 		end
 	end
 end

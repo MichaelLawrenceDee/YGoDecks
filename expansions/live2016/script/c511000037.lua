@@ -25,11 +25,11 @@ function c511000037.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	local tc=Duel.GetAttacker()
 	if chk==0 then return tc:IsOnField() end
 	Duel.SetTargetCard(tc)
-	Duel.SetOperationInfo(0,CATEGORY_DAMAGE,nil,0,1-tp,tc:GetDefence())
+	Duel.SetOperationInfo(0,CATEGORY_DAMAGE,nil,0,1-tp,tc:GetDefense())
 end
 function c511000037.operation(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
 	if tc and tc:IsFaceup() and tc:IsRelateToEffect(e) then
-		Duel.Damage(1-tp,tc:GetDefence(),REASON_EFFECT)
+		Duel.Damage(1-tp,tc:GetDefense(),REASON_EFFECT)
 	end
 end

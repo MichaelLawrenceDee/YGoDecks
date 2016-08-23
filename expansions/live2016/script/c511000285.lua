@@ -50,7 +50,7 @@ function c511000285.atkop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=g:GetFirst()
 	while tc do
 		if tc:IsCode(26905245) then
-			local def=tc:GetPreviousDefenceOnField()
+			local def=tc:GetPreviousDefenseOnField()
 			if def<0 then def=0 end
 			sum=sum+def
 		end
@@ -63,7 +63,7 @@ function c511000285.atkop(e,tp,eg,ep,ev,re,r,rp)
 	e1:SetReset(RESET_EVENT+0x1ff0000)
 	c:RegisterEffect(e1)
 	local e2=e1:Clone()
-	e2:SetCode(EFFECT_SET_DEFENCE)
+	e2:SetCode(EFFECT_SET_DEFENSE)
 	c:RegisterEffect(e2)
 end
 function c511000285.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
@@ -74,6 +74,6 @@ end
 function c511000285.spop(e,tp,eg,ep,ev,re,r,rp)
 	if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0 then return end
 	if e:GetHandler():IsRelateToEffect(e) then
-		Duel.SpecialSummon(e:GetHandler(),0,tp,tp,false,false,POS_FACEUP_DEFENCE)
+		Duel.SpecialSummon(e:GetHandler(),0,tp,tp,false,false,POS_FACEUP_DEFENSE)
 	end
 end

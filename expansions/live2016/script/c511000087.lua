@@ -31,14 +31,14 @@ function c511000087.condition(e,tp,eg,ep,ev,re,r,rp)
 end
 function c511000087.turncount(e,tp,eg,ep,ev,re,r,rp)
 	if tp~=Duel.GetTurnPlayer() then return end
-	e:GetHandler():AddCounter(0x105,1)
+	e:GetHandler():AddCounter(0x1105,1)
 end
 function c511000087.spfilter(c,e,tp)
 	return c:IsSummonableCard() and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end
 function c511000087.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
-	local ct=c:GetCounter(0x105)
+	local ct=c:GetCounter(0x1105)
 	if chk==0 then return e:GetHandler():IsAbleToGraveAsCost() and Duel.CheckReleaseGroup(tp,nil,1,nil) 
 	and Duel.GetLocationCount(tp,LOCATION_MZONE)>=ct and Duel.IsExistingMatchingCard(c511000087.spfilter,tp,LOCATION_HAND,0,ct,nil,e,tp) end
 	local g=Duel.SelectReleaseGroup(tp,aux.TRUE,1,1,nil)

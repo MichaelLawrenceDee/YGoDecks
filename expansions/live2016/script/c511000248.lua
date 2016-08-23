@@ -137,8 +137,8 @@ function c511000248.battledmgcon(e,tp,eg,ep,ev,re,r,rp,chk)
 	local a=Duel.GetAttacker()
 	local d=Duel.GetAttackTarget()
 	if not d then return false end
-	return (a:GetControler()==tp and a:GetAttack()<d:GetAttack() and d:IsAttackPos() or a:GetControler()==tp and a:GetAttack()<d:GetDefence() 
-		and d:IsDefencePos() or d:GetControler()==tp and d:GetAttack()<a:GetAttack())
+	return (a:GetControler()==tp and a:GetAttack()<d:GetAttack() and d:IsAttackPos() or a:GetControler()==tp and a:GetAttack()<d:GetDefense() 
+		and d:IsDefensePos() or d:GetControler()==tp and d:GetAttack()<a:GetAttack())
 end
 function c511000248.battledmgcon2(e,tp,eg,ep,ev,re,r,rp,chk)
 	return Duel.GetAttacker():IsControler(1-tp) and Duel.GetAttackTarget()==nil

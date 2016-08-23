@@ -31,7 +31,7 @@ function c95000130.activate(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local g=Duel.GetMatchingGroup(c95000130.filter,tp,LOCATION_MZONE,LOCATION_MZONE,nil)
 	if g:GetCount()>0 then
-		Duel.ChangePosition(g,POS_FACEUP_DEFENCE)
+		Duel.ChangePosition(g,POS_FACEUP_DEFENSE)
 		local tc=g:GetFirst()
 		while tc do
 			local e1=Effect.CreateEffect(c)
@@ -51,12 +51,12 @@ function c95000130.activate(e,tp,eg,ep,ev,re,r,rp)
 end
 
 function c95000130.postg2(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return e:GetHandler():IsDefencePos() end
+	if chk==0 then return e:GetHandler():IsDefensePos() end
 	Duel.SetOperationInfo(0,CATEGORY_POSITION,e:GetHandler(),1,0,0)
 end
 function c95000130.posop2(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	if c:IsFaceup() and c:IsRelateToEffect(e) and c:IsDefencePos() then
+	if c:IsFaceup() and c:IsRelateToEffect(e) and c:IsDefensePos() then
 		Duel.ChangePosition(c,0,0,POS_FACEUP_ATTACK,0)
 	end
 end

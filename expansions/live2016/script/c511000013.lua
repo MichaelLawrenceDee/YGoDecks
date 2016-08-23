@@ -7,7 +7,7 @@ function c511000013.initial_effect(c)
 	e1:SetCode(EFFECT_SPSUMMON_PROC)
 	e1:SetProperty(EFFECT_FLAG_UNCOPYABLE+EFFECT_FLAG_SPSUM_PARAM)
 	e1:SetRange(LOCATION_HAND)
-	e1:SetTargetRange(POS_FACEUP_DEFENCE,1)
+	e1:SetTargetRange(POS_FACEUP_DEFENSE,1)
     e1:SetCondition(c511000013.spcon)
 	e1:SetOperation(c511000013.spcop)
 	c:RegisterEffect(e1)
@@ -50,7 +50,7 @@ function c511000013.initial_effect(c)
 end
 function c511000013.damcon(e,tp,eg,ep,ev,re,r,rp)
 local c=e:GetHandler()
-	return bit.band(c:GetPreviousPosition(),POS_DEFENCE)~=0 and c:IsFaceup() and c:IsAttackPos()
+	return bit.band(c:GetPreviousPosition(),POS_DEFENSE)~=0 and c:IsFaceup() and c:IsAttackPos()
 end
 function c511000013.damtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end

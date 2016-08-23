@@ -12,7 +12,7 @@ function c511002058.initial_effect(c)
 	e1:SetTarget(c511002058.adtg)
 	e1:SetOperation(c511002058.adop)
 	c:RegisterEffect(e1)
-	--to defence
+	--to defense
 	local e2=Effect.CreateEffect(c)
 	e2:SetCategory(CATEGORY_POSITION)
 	e2:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_F)
@@ -39,11 +39,11 @@ function c511002058.adcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	e:GetHandler():RemoveOverlayCard(tp,1,1,REASON_COST)
 end
 function c511002058.adtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	if chk==0 then return e:GetHandler():IsDefenceAbove(100) end
+	if chk==0 then return e:GetHandler():IsDefenseAbove(100) end
 end
 function c511002058.adop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	local maxc=c:GetDefence()
+	local maxc=c:GetDefense()
 	maxc=math.floor(maxc/100)*100
 	local t={}
 	for i=1,maxc/100 do
@@ -61,7 +61,7 @@ function c511002058.adop(e,tp,eg,ep,ev,re,r,rp)
 		local e2=Effect.CreateEffect(c)
 		e2:SetType(EFFECT_TYPE_SINGLE)
 		e2:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
-		e2:SetCode(EFFECT_UPDATE_DEFENCE)
+		e2:SetCode(EFFECT_UPDATE_DEFENSE)
 		e2:SetValue(-val)
 		e2:SetReset(RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END)
 		c:RegisterEffect(e2)
@@ -80,7 +80,7 @@ end
 function c511002058.posop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	if c:IsRelateToEffect(e) and c:IsPosition(POS_FACEUP_ATTACK) then
-		Duel.ChangePosition(c,POS_FACEUP_DEFENCE)
+		Duel.ChangePosition(c,POS_FACEUP_DEFENSE)
 	end
 end
 function c511002058.numchk(e,tp,eg,ep,ev,re,r,rp)

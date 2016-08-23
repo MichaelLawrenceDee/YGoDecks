@@ -122,7 +122,6 @@ function c110000000.op(e,tp,eg,ep,ev,re,r,rp,chk)
 		Duel.MoveToField(e:GetHandler(),tp,tp,LOCATION_SZONE,POS_FACEUP,true)
 		if tc2==nil then
 			local token=Duel.CreateToken(tp,110000000,nil,nil,nil,nil,nil,nil)		
-			Duel.SpecialSummonStep(token,0,tp,tp,false,false,POS_FACEUP)
 			local e1=Effect.CreateEffect(e:GetHandler())
 			e1:SetCode(EFFECT_CHANGE_TYPE)
 			e1:SetType(EFFECT_TYPE_SINGLE)
@@ -131,7 +130,6 @@ function c110000000.op(e,tp,eg,ep,ev,re,r,rp,chk)
 			e1:SetValue(TYPE_SPELL+TYPE_FIELD)
 			token:RegisterEffect(e1)
 			Duel.MoveToField(token,tp,1-tp,LOCATION_SZONE,POS_FACEUP,true)
-			Duel.SpecialSummonComplete()
 		end
 	else
 		Duel.SendtoDeck(e:GetHandler(),nil,-2,REASON_EFFECT)

@@ -35,7 +35,7 @@ function c511002045.spop(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetReset(RESET_EVENT+0x1ff0000+RESET_PHASE+PHASE_END)
 		c:RegisterEffect(e1)
 		local dam=tc:GetAttack()
-		if tc:GetAttack()>tc:GetDefence() then dam=tc:GetDefence() end
+		if tc:GetAttack()>tc:GetDefense() then dam=tc:GetDefense() end
 		if dam<0 then dam=0 end
 		Duel.Damage(tp,dam,REASON_EFFECT)
 	end

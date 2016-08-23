@@ -28,7 +28,7 @@ function c511000881.operation(e,tp,eg,ep,ev,re,r,rp)
 			and Duel.IsPlayerCanSpecialSummonMonster(tp,511000882,0,0x4011,800,1200,3,RACE_MACHINE,ATTRIBUTE_EARTH) then
 			for i=1,3 do
 				local token=Duel.CreateToken(tp,511000882)
-				Duel.SpecialSummonStep(token,0,tp,tp,false,false,POS_FACEUP_DEFENCE)
+				Duel.SpecialSummonStep(token,0,tp,tp,false,false,POS_FACEUP_DEFENSE)
 			end
 			Duel.SpecialSummonComplete()
 		end

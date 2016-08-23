@@ -39,7 +39,7 @@ function c511000662.activate(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.SelectMatchingCard(tp,c511000662.filter,tp,LOCATION_HAND+LOCATION_DECK,0,1,1,nil,e,tp):GetFirst()
 	if tc then
 		if Duel.SpecialSummon(tc,0,tp,tp,true,false,POS_FACEUP)>0 then
-			if tc:GetTextAttack()==-2 and tc:GetTextDefence()==-2 then
+			if tc:GetTextAttack()==-2 and tc:GetTextDefense()==-2 then
 				local e1=Effect.CreateEffect(e:GetHandler())
 				e1:SetType(EFFECT_TYPE_SINGLE)
 				e1:SetCode(EFFECT_SET_ATTACK)
@@ -47,7 +47,7 @@ function c511000662.activate(e,tp,eg,ep,ev,re,r,rp)
 				e1:SetValue(e:GetLabel()*700)
 				tc:RegisterEffect(e1)
 				local e2=e1:Clone()
-				e2:SetCode(EFFECT_SET_DEFENCE)
+				e2:SetCode(EFFECT_SET_DEFENSE)
 				tc:RegisterEffect(e2)
 			end
 			tc:CompleteProcedure()

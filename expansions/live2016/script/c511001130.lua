@@ -25,7 +25,7 @@ function c511001130.activate(e,tp,eg,ep,ev,re,r,rp)
    		local g=Duel.GetMatchingGroup(c511001130.filter1,tp,0,LOCATION_GRAVE,nil):RandomSelect(tp,4)
 		local tc=g:GetFirst()
 		while tc do
-    		Duel.SpecialSummonStep(tc,0,tp,1-tp,false,false,POS_FACEUP_DEFENCE)
+    		Duel.SpecialSummonStep(tc,0,tp,1-tp,false,false,POS_FACEUP_DEFENSE)
     		tc:RegisterFlagEffect(511001130,RESET_EVENT+0x17a0000,0,1)
     		tc=g:GetNext()
 		end
@@ -34,7 +34,7 @@ function c511001130.activate(e,tp,eg,ep,ev,re,r,rp)
 			local g=Duel.GetMatchingGroup(c511001130.filter1,tp,0,LOCATION_GRAVE,nil):RandomSelect(tp,gct)
 			local tc=g:GetFirst()
 			while tc do
-			Duel.SpecialSummonStep(tc,0,tp,1-tp,false,false,POS_FACEUP_DEFENCE)
+			Duel.SpecialSummonStep(tc,0,tp,1-tp,false,false,POS_FACEUP_DEFENSE)
 			tc:RegisterFlagEffect(511001130,RESET_EVENT+0x17a0000,0,1)
     		tc=g:GetNext()
 		end

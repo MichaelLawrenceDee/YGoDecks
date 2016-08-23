@@ -53,7 +53,7 @@ function c810000060.atkop(e,tp,eg,ep,ev,re,r,rp)
 	e2:SetCode(EFFECT_DISABLE_EFFECT)
 	e2:SetReset(RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END)
 	tc:RegisterEffect(e2)
-	local tc1=tc:GetDefence()
+	local tc1=tc:GetDefense()
 	local tc2=e:GetHandler()
 	if tc1>tc2:GetAttack() then
 		local e3=Effect.CreateEffect(e:GetHandler())

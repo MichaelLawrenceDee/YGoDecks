@@ -16,7 +16,7 @@ function c511000364.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
 	local ct=c:GetFlagEffect(511000364)+1
 	if chkc then return chkc:IsControler(1-tp) and chkc:IsLocation(LOCATION_MZONE) and chkc:IsFaceup() end
-	if chk==0 then return c:GetAttack()>=ct*500 and c:GetDefence()>=ct*500
+	if chk==0 then return c:GetAttack()>=ct*500 and c:GetDefense()>=ct*500
 		and Duel.IsExistingTarget(Card.IsFaceup,tp,0,LOCATION_MZONE,1,nil) end
 	c:RegisterFlagEffect(511000364,RESET_CHAIN,0,0)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_FACEUP)
@@ -26,7 +26,7 @@ function c511000364.operation(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local tc=Duel.GetFirstTarget()
 	if c:IsRelateToEffect(e) and c:IsFaceup() and tc:IsRelateToEffect(e) and tc:IsFaceup()
-		and c:GetAttack()>=500 and c:GetDefence()>=500 then
+		and c:GetAttack()>=500 and c:GetDefense()>=500 then
 		local e1=Effect.CreateEffect(c)
 		e1:SetType(EFFECT_TYPE_SINGLE)
 		e1:SetProperty(EFFECT_FLAG_COPY_INHERIT)
@@ -35,7 +35,7 @@ function c511000364.operation(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetValue(-500)
 		c:RegisterEffect(e1)
 		local e2=e1:Clone()
-		e2:SetCode(EFFECT_UPDATE_DEFENCE)
+		e2:SetCode(EFFECT_UPDATE_DEFENSE)
 		c:RegisterEffect(e2)
 		local e3=Effect.CreateEffect(c)
 		e3:SetType(EFFECT_TYPE_SINGLE)
@@ -44,7 +44,7 @@ function c511000364.operation(e,tp,eg,ep,ev,re,r,rp)
 		e3:SetValue(-1500)
 		tc:RegisterEffect(e3)
 		local e4=e3:Clone()
-		e4:SetCode(EFFECT_UPDATE_DEFENCE)
+		e4:SetCode(EFFECT_UPDATE_DEFENSE)
 		tc:RegisterEffect(e4)
 	end
 end

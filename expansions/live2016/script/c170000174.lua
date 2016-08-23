@@ -43,7 +43,7 @@ function c170000174.spop(e,tp,eg,ep,ev,re,r,rp)
 	for i=1,4 do
 		local token=Duel.CreateToken(tp,170000175)
 		Duel.SpecialSummonStep(token,0,tp,tp,false,false,POS_FACEUP)
-		token:AddCounter(0x106,1)
+		token:AddCounter(0x1106,1)
 		local e1=Effect.CreateEffect(e:GetHandler())
 		e1:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_CONTINUOUS)
 		e1:SetCode(EFFECT_DESTROY_REPLACE)
@@ -54,12 +54,12 @@ function c170000174.spop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.SpecialSummonComplete()
 end
 function c170000174.reptg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return not e:GetHandler():IsReason(REASON_REPLACE) and e:GetHandler():GetCounter(0x106)>0 end
-	e:GetHandler():RemoveCounter(tp,0x106,1,REASON_EFFECT)
+	if chk==0 then return not e:GetHandler():IsReason(REASON_REPLACE) and e:GetHandler():GetCounter(0x1106)>0 end
+	e:GetHandler():RemoveCounter(tp,0x1106,1,REASON_EFFECT)
 	return true
 end
 function c170000174.filter(c,ct)
-	return c:GetCounter(0x106)==ct and c:IsFaceup() and c:IsCode(170000175)
+	return c:GetCounter(0x1106)==ct and c:IsFaceup() and c:IsCode(170000175)
 end
 function c170000174.cttg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(c170000174.filter,tp,LOCATION_MZONE,0,1,nil,0) end
@@ -68,7 +68,7 @@ function c170000174.ctop(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.GetMatchingGroup(c170000174.filter,tp,LOCATION_MZONE,0,nil,0)
 	local tc=g:GetFirst()
 	while tc do
-		tc:AddCounter(0x106,1)
+		tc:AddCounter(0x1106,1)
 		tc=g:GetNext()
 	end
 end

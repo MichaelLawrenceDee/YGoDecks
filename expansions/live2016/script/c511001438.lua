@@ -25,7 +25,7 @@ function c511001438.target(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function c511001438.operation(e,tp,eg,ep,ev,re,r,rp)
 	local at=Duel.GetAttackTarget()
-	Duel.ChangePosition(at,POS_FACEUP_DEFENCE,POS_FACEDOWN_DEFENCE,0,0)
+	Duel.ChangePosition(at,POS_FACEUP_DEFENSE,POS_FACEDOWN_DEFENSE,0,0)
 	local e1=Effect.CreateEffect(e:GetHandler())
 	e1:SetType(EFFECT_TYPE_SINGLE)
 	e1:SetCode(EFFECT_INDESTRUCTABLE_BATTLE)

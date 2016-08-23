@@ -36,7 +36,7 @@ function c95000124.activate(e,tp,eg,ep,ev,re,r,rp)
 	if tc:IsRelateToEffect(e) and tc:IsFaceup() then
 		local e1=Effect.CreateEffect(e:GetHandler())
 		e1:SetType(EFFECT_TYPE_SINGLE)
-		e1:SetCode(EFFECT_SET_DEFENCE_FINAL)
+		e1:SetCode(EFFECT_SET_DEFENSE_FINAL)
 		e1:SetReset(RESET_EVENT+0x1fe0000)
 		e1:SetValue(tc:GetAttack())
 		tc:RegisterEffect(e1)

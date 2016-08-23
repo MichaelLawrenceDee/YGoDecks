@@ -12,7 +12,7 @@ function c511001565.initial_effect(c)
 	e1:SetValue(c511001565.val)
 	c:RegisterEffect(e1)
 	local e2=e1:Clone()
-	e2:SetCode(EFFECT_SET_BASE_DEFENCE)
+	e2:SetCode(EFFECT_SET_BASE_DEFENSE)
 	c:RegisterEffect(e2)
 	--switch
 	local e3=Effect.CreateEffect(c)
@@ -27,10 +27,10 @@ function c511001565.initial_effect(c)
 	c:RegisterEffect(e3)
 end
 function c511001565.val(e,c)
-	if c:GetBaseAttack()<=c:GetBaseDefence() then
+	if c:GetBaseAttack()<=c:GetBaseDefense() then
 		return c:GetBaseAttack()
 	else
-		return c:GetBaseDefence()
+		return c:GetBaseDefense()
 	end
 end
 function c511001565.target(e,c)
@@ -52,7 +52,7 @@ function c511001565.op(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
 	if tc:IsRelateToEffect(e) and tc:IsFaceup() then
 		local atk=tc:GetAttack()
-		local def=tc:GetDefence()
+		local def=tc:GetDefense()
 		local e1=Effect.CreateEffect(c)
 		e1:SetType(EFFECT_TYPE_SINGLE)
 		e1:SetCode(EFFECT_SET_ATTACK_FINAL)
@@ -60,7 +60,7 @@ function c511001565.op(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetValue(def)
 		tc:RegisterEffect(e1)
 		local e2=e1:Clone()
-		e2:SetCode(EFFECT_SET_DEFENCE_FINAL)
+		e2:SetCode(EFFECT_SET_DEFENSE_FINAL)
 		e2:SetValue(atk)
 		tc:RegisterEffect(e2)
 	end

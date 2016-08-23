@@ -46,7 +46,7 @@ function c100000138.ctcon(e,tp,eg,ep,ev,re,r,rp)
 	local d=Duel.GetAttackTarget()
 	local a=Duel.GetAttacker()
 	return tc==d and d and a:IsRelateToBattle() and a:IsFaceup() and a==e:GetHandler():GetEquipTarget() 
-		and d:IsFaceup() and d:GetCounter(0x90)>0
+		and d:IsFaceup() and d:GetCounter(0x1090)>0
 end
 function c100000138.cttg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end

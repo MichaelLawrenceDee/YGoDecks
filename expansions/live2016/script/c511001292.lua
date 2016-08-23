@@ -21,7 +21,7 @@ end
 function c511001292.op(e,tp,eg,ep,ev,re,r,rp)
 	local sg=Duel.GetFieldGroup(1-tp,LOCATION_MZONE,nil)
 	if sg:GetCount()>0 then
-		Duel.ChangePosition(sg,POS_FACEUP_DEFENCE,POS_FACEDOWN_DEFENCE,POS_FACEUP_ATTACK,POS_FACEUP_ATTACK)
+		Duel.ChangePosition(sg,POS_FACEUP_DEFENSE,POS_FACEDOWN_DEFENSE,POS_FACEUP_ATTACK,POS_FACEUP_ATTACK)
 		local tc=sg:GetFirst()
 		while tc do
 			local e1=Effect.CreateEffect(e:GetHandler())
@@ -32,9 +32,9 @@ function c511001292.op(e,tp,eg,ep,ev,re,r,rp)
 			tc:RegisterEffect(e1)
 			local e2=Effect.CreateEffect(e:GetHandler())
 			e2:SetType(EFFECT_TYPE_SINGLE)
-			e2:SetCode(EFFECT_SET_DEFENCE_FINAL)
+			e2:SetCode(EFFECT_SET_DEFENSE_FINAL)
 			e2:SetReset(RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_BATTLE)
-			e2:SetValue(tc:GetDefence()/2)
+			e2:SetValue(tc:GetDefense()/2)
 			tc:RegisterEffect(e2)
 			tc=sg:GetNext()
 		end

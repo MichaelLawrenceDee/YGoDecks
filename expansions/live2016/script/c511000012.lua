@@ -7,7 +7,7 @@ function c511000012.initial_effect(c)
 	e1:SetCode(EFFECT_SPSUMMON_PROC)
 	e1:SetProperty(EFFECT_FLAG_UNCOPYABLE+EFFECT_FLAG_SPSUM_PARAM)
 	e1:SetRange(LOCATION_HAND)
-	e1:SetTargetRange(POS_FACEUP_DEFENCE,1)
+	e1:SetTargetRange(POS_FACEUP_DEFENSE,1)
     e1:SetCondition(c511000012.spccon)
 	e1:SetOperation(c511000012.spcop)
 	c:RegisterEffect(e1)
@@ -52,7 +52,7 @@ end
 function c511000012.bpop(e,tp,eg,ep,ev,re,r,rp)
 	local sg=Duel.GetFieldGroup(tp,LOCATION_MZONE,nil)
 	if sg:GetCount()>0 then
-		Duel.ChangePosition(sg,POS_FACEUP_DEFENCE,POS_FACEDOWN_DEFENCE,POS_FACEUP_ATTACK,POS_FACEUP_ATTACK)
+		Duel.ChangePosition(sg,POS_FACEUP_DEFENSE,POS_FACEDOWN_DEFENSE,POS_FACEUP_ATTACK,POS_FACEUP_ATTACK)
 	end
 end
 function c511000012.desfilter(c)

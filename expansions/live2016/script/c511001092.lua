@@ -34,7 +34,7 @@ function c511001092.activate(e,tp,eg,ep,ev,re,r,rp)
 	while tc do
 		local e1=Effect.CreateEffect(e:GetHandler())
 		e1:SetType(EFFECT_TYPE_SINGLE)
-		e1:SetCode(EFFECT_UPDATE_DEFENCE)
+		e1:SetCode(EFFECT_UPDATE_DEFENSE)
 		e1:SetReset(RESET_EVENT+0x1fe0000)
 		e1:SetValue(200)
 		tc:RegisterEffect(e1)

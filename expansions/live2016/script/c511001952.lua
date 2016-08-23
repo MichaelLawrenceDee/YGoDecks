@@ -124,7 +124,7 @@ function c511001952.spop(e,tp,eg,ep,ev,re,r,rp)
 	if ft<=0 or not Duel.IsPlayerCanSpecialSummonMonster(tp,90884404,0,0x4011,100,0,1,RACE_FIEND,ATTRIBUTE_DARK) then return end
 	for i=1,ft do
 		local token=Duel.CreateToken(tp,90884404)
-		Duel.SpecialSummonStep(token,0,tp,tp,false,false,POS_FACEUP_DEFENCE)
+		Duel.SpecialSummonStep(token,0,tp,tp,false,false,POS_FACEUP_DEFENSE)
 		local e1=Effect.CreateEffect(e:GetHandler())
 		e1:SetType(EFFECT_TYPE_SINGLE)
 		e1:SetCode(EFFECT_SET_BASE_ATTACK)
@@ -136,7 +136,7 @@ function c511001952.spop(e,tp,eg,ep,ev,re,r,rp)
 	if ft2<=0 or not Duel.IsPlayerCanSpecialSummonMonster(1-tp,90884404,0,0x4011,0,0,1,RACE_FIEND,ATTRIBUTE_DARK) then return end
 	for i=1,ft2 do
 		local token=Duel.CreateToken(tp,90884404)
-		Duel.SpecialSummonStep(token,0,tp,1-tp,false,false,POS_FACEUP_DEFENCE)
+		Duel.SpecialSummonStep(token,0,tp,1-tp,false,false,POS_FACEUP_DEFENSE)
 		local e1=Effect.CreateEffect(e:GetHandler())
 		e1:SetType(EFFECT_TYPE_SINGLE)
 		e1:SetCode(EFFECT_SET_BASE_ATTACK)

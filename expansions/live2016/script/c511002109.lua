@@ -36,21 +36,21 @@ function c511002109.atkcon(e,tp,eg,ep,ev,re,r,rp)
 	if not tc or not bc or tc:IsHasEffect(EFFECT_INDESTRUCTABLE_BATTLE) then return false end
 	if bc~=e:GetHandler() and bc:GetOwner()==tp then return false end
 	e:SetLabelObject(tc)
-	if bc==Duel.GetAttackTarget() and bc:IsDefencePos() then return false end
-	if bc:IsPosition(POS_FACEUP_DEFENCE) and bc==Duel.GetAttacker() then
-		if not bc:IsHasEffect(EFFECT_DEFENCE_ATTACK) then return false end
-		if bc:IsHasEffect(EFFECT_DEFENCE_ATTACK) then
-			if bc:GetEffectCount(EFFECT_DEFENCE_ATTACK)==1 then
+	if bc==Duel.GetAttackTarget() and bc:IsDefensePos() then return false end
+	if bc:IsPosition(POS_FACEUP_DEFENSE) and bc==Duel.GetAttacker() then
+		if not bc:IsHasEffect(EFFECT_DEFENSE_ATTACK) then return false end
+		if bc:IsHasEffect(EFFECT_DEFENSE_ATTACK) then
+			if bc:GetEffectCount(EFFECT_DEFENSE_ATTACK)==1 then
 				if tc:IsAttackPos() then
-					if bc:GetDefence()==tc:GetAttack() and not bc:IsHasEffect(EFFECT_INDESTRUCTABLE_BATTLE) then
-						return bc:GetDefence()~=0
+					if bc:GetDefense()==tc:GetAttack() and not bc:IsHasEffect(EFFECT_INDESTRUCTABLE_BATTLE) then
+						return bc:GetDefense()~=0
 					else
-						return bc:GetDefence()>=tc:GetAttack()
+						return bc:GetDefense()>=tc:GetAttack()
 					end
 				else
-					return bc:GetDefence()>tc:GetDefence()
+					return bc:GetDefense()>tc:GetDefense()
 				end
-			elseif bc:IsHasEffect(EFFECT_DEFENCE_ATTACK) then
+			elseif bc:IsHasEffect(EFFECT_DEFENSE_ATTACK) then
 				if tc:IsAttackPos() then
 					if bc:GetAttack()==tc:GetAttack() and not bc:IsHasEffect(EFFECT_INDESTRUCTABLE_BATTLE) then
 						return bc:GetAttack()~=0
@@ -58,7 +58,7 @@ function c511002109.atkcon(e,tp,eg,ep,ev,re,r,rp)
 						return bc:GetAttack()>=tc:GetAttack()
 					end
 				else
-					return bc:GetAttack()>tc:GetDefence()
+					return bc:GetAttack()>tc:GetDefense()
 				end
 			end
 		end
@@ -70,7 +70,7 @@ function c511002109.atkcon(e,tp,eg,ep,ev,re,r,rp)
 				return bc:GetAttack()>=tc:GetAttack()
 			end
 		else
-			return bc:GetAttack()>tc:GetDefence()
+			return bc:GetAttack()>tc:GetDefense()
 		end
 	end
 end

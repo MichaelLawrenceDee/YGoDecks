@@ -60,7 +60,7 @@ function c511002167.ntop(e,tp,eg,ep,ev,re,r,rp,c)
 	if Duel.IsExistingMatchingCard(c511002167.spchk,tp,LOCATION_MZONE,0,1,nil) then
 		e:SetTargetRange(POS_FACEDOWN,0)
 	else
-		e:SetTargetRange(POS_FACEDOWN_DEFENCE,0)
+		e:SetTargetRange(POS_FACEDOWN_DEFENSE,0)
 	end
 end
 function c511002167.tcon(e,c)
@@ -72,7 +72,7 @@ function c511002167.top(e,tp,eg,ep,ev,re,r,rp,c)
 	if Duel.IsExistingMatchingCard(c511002167.spchk,tp,LOCATION_MZONE,0,1,nil) then
 		e:SetTargetRange(POS_FACEDOWN,0)
 	else
-		e:SetTargetRange(POS_FACEDOWN_DEFENCE,0)
+		e:SetTargetRange(POS_FACEDOWN_DEFENSE,0)
 	end
 	local g=Duel.SelectTribute(tp,c,1,1)
 	c:SetMaterial(g)
@@ -87,7 +87,7 @@ function c511002167.ttop(e,tp,eg,ep,ev,re,r,rp,c)
 	if Duel.IsExistingMatchingCard(c511002167.spchk,tp,LOCATION_MZONE,0,1,nil) then
 		e:SetTargetRange(POS_FACEDOWN,0)
 	else
-		e:SetTargetRange(POS_FACEDOWN_DEFENCE,0)
+		e:SetTargetRange(POS_FACEDOWN_DEFENSE,0)
 	end
 	local g=Duel.SelectTribute(tp,c,2,2)
 	c:SetMaterial(g)

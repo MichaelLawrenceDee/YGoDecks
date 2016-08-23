@@ -140,7 +140,7 @@ function c511000256.op(e,tp,eg,ep,ev,re,r,rp)
 		if tc:IsFaceup() then
 			pos=POS_FACEUP
 		elseif tc:IsLocation(LOCATION_SZONE) and tc:IsFacedown() then
-			pos=POS_FACEDOWN_DEFENCE
+			pos=POS_FACEDOWN_DEFENSE
 		else
 			pos=POS_FACEDOWN
 		end
