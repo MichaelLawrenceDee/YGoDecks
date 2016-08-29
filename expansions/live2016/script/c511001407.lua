@@ -1,5 +1,5 @@
---Oily Cicada
-function c511002163.initial_effect(c)
+--Gagagamirage
+function c511001407.initial_effect(c)
 	function aux.AddXyzProcedure(c,f,lv,ct,alterf,desc,maxct,op)
 		local code=c:GetOriginalCode()
 		local mt=_G["c" .. code]
@@ -37,36 +37,34 @@ function c511002163.initial_effect(c)
 		c:RegisterEffect(e1)
 	end
 	
-	--
+	--activate
 	local e1=Effect.CreateEffect(c)
-	e1:SetType(EFFECT_TYPE_SINGLE)
-	e1:SetCondition(c511002163.con)
-	e1:SetCode(511001225)
+	e1:SetType(EFFECT_TYPE_ACTIVATE)
+	e1:SetCode(EVENT_FREE_CHAIN)
 	c:RegisterEffect(e1)
-	--register
+	--xyz
 	local e2=Effect.CreateEffect(c)
-	e2:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_CONTINUOUS)
-	e2:SetCode(EVENT_CHANGE_POS)
-	e2:SetOperation(c511002163.regop)
+	e2:SetType(EFFECT_TYPE_FIELD)
+	e2:SetCode(511001225)
+	e2:SetRange(LOCATION_SZONE)
+	e2:SetTargetRange(LOCATION_MZONE,0)	
+	e2:SetTarget(c511001407.target)
 	c:RegisterEffect(e2)
-	if not c511002163.global_check then
-		c511002163.global_check=true
+	if not c511001407.global_check then
+		c511001407.global_check=true
 		local ge2=Effect.CreateEffect(c)
 		ge2:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
 		ge2:SetCode(EVENT_ADJUST)
 		ge2:SetCountLimit(1)
 		ge2:SetProperty(EFFECT_FLAG_NO_TURN_RESET)
-		ge2:SetOperation(c511002163.xyzchk)
+		ge2:SetOperation(c511001407.xyzchk)
 		Duel.RegisterEffect(ge2,0)
 	end
 end
-function c511002163.xyzchk(e,tp,eg,ep,ev,re,r,rp)
+function c511001407.target(e,c)
+	return c:IsSetCard(0x54) and c:IsFaceup()
+end
+function c511001407.xyzchk(e,tp,eg,ep,ev,re,r,rp)
 	Duel.CreateToken(tp,419)
 	Duel.CreateToken(1-tp,419)
-end
-function c511002163.con(e)
-	return e:GetHandler():GetFlagEffect(511002163)>0
-end
-function c511002163.regop(e,tp,eg,ep,ev,re,r,rp)
-	e:GetHandler():RegisterFlagEffect(511002163,RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END,0,0)
 end
