@@ -8,16 +8,6 @@ function c100000110.initial_effect(c)
 	e1:SetCode(EFFECT_SPSUMMON_CONDITION)
 	e1:SetValue(aux.FALSE)
 	c:RegisterEffect(e1)
-	--spsummon proc
-	local e2=Effect.CreateEffect(c)	
-	e2:SetProperty(EFFECT_FLAG_UNCOPYABLE+EFFECT_FLAG_CANNOT_DISABLE)
-	e2:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
-	e2:SetCode(EVENT_PHASE+PHASE_END)
-	e2:SetCountLimit(1)
-	e2:SetRange(0xFF)
-	e2:SetTargetRange(LOCATION_MZONE,0)
-	e2:SetOperation(c100000110.spop)
-	c:RegisterEffect(e2)
 	--special summon
 	local e4=Effect.CreateEffect(c)
 	e4:SetType(EFFECT_TYPE_FIELD)
@@ -42,14 +32,24 @@ function c100000110.initial_effect(c)
 	e7:SetCode(EFFECT_IMMUNE_EFFECT)
 	e7:SetValue(c100000110.efilter)
 	c:RegisterEffect(e7)
+	if not c100000110.global_check then
+		c100000110.global_check=true
+		--spsummon proc
+		local e2=Effect.CreateEffect(c)	
+		e2:SetProperty(EFFECT_FLAG_UNCOPYABLE+EFFECT_FLAG_CANNOT_DISABLE)
+		e2:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
+		e2:SetCode(EVENT_PHASE+PHASE_END)
+		e2:SetCountLimit(1)
+		e2:SetOperation(c100000110.spop)
+		Duel.RegisterEffect(e2,0)
+	end
 end
 function c100000110.spfilter1(c)
 	return c:IsFaceup() and c:GetLevel()==1 and c:IsType(TYPE_NORMAL)
 end
 function c100000110.spop(e,tp,c)
 	local c=e:GetHandler()
-	if c:GetControler()~=Duel.GetTurnPlayer() then return end
-	local g=Duel.GetMatchingGroup(c100000110.spfilter1,c:GetControler(),LOCATION_MZONE,0,nil)
+	local g=Duel.GetMatchingGroup(c100000110.spfilter1,Duel.GetTurnPlayer(),LOCATION_MZONE,0,nil)
 	local rc=g:GetFirst()
 	while rc do
 		if rc:GetFlagEffect(100000110)==0 then 
@@ -59,7 +59,6 @@ function c100000110.spop(e,tp,c)
 			e1:SetCode(EVENT_PHASE_START+PHASE_STANDBY)
 			e1:SetCountLimit(1)
 			e1:SetRange(LOCATION_MZONE)
-			e1:SetTargetRange(LOCATION_MZONE,0)
 			e1:SetCondition(c100000110.spcon1)
 			e1:SetLabel(0)
 			e1:SetOperation(c100000110.spop2)

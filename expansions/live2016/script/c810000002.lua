@@ -32,9 +32,6 @@ function c810000002.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_EFFECT)
 	Duel.SelectTarget(tp,c810000002.filter,tp,LOCATION_GRAVE,LOCATION_GRAVE,1,1,nil,e,tp)
 end
-function c810000002.filterx(c,tp)
-	return c:GetOwner()==tp
-end
 function c810000002.activate(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
 	if tc and tc:IsRelateToEffect(e) and (tc:IsType(TYPE_FIELD) or Duel.GetLocationCount(tp,LOCATION_SZONE)>0) then
@@ -76,22 +73,6 @@ function c810000002.activate(e,tp,eg,ep,ev,re,r,rp)
 				etc=g:GetNext()
 			end
 		end
-		if p~=tp then
-			Duel.SendtoGrave(tc,REASON_RULE)
-		else
-			local g1=Duel.GetFieldGroup(tp,0,LOCATION_DECK)
-			local g2=Duel.GetFieldGroup(tp,0,LOCATION_GRAVE)
-			local g3=Duel.GetMatchingGroup(c810000002.filterx,tp,0,LOCATION_GRAVE,nil,tp)
-			if g3:GetCount()>0 then
-				Duel.SwapDeckAndGrave(1-tp)
-				Duel.SwapDeckAndGrave(1-tp)
-			end
-			g3:AddCard(tc)
-			Duel.SendtoDeck(g3,1-tp,0,REASON_RULE)
-			Duel.SwapDeckAndGrave(1-tp)
-			Duel.SendtoDeck(g1,1-tp,0,REASON_RULE)
-			Duel.SendtoGrave(g2,REASON_RULE+REASON_RETURN)
-			Duel.SendtoGrave(g2,REASON_RULE+REASON_RETURN)
-		end
+		Duel.SendtoGrave(tc,REASON_EFFECT,1-tp)
 	end
 end

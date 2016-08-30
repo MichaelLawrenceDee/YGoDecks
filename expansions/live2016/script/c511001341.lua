@@ -42,8 +42,8 @@ function c511001341.clear(e,tp,eg,ep,ev,re,r,rp)
 	c511001341[0]:Clear()
 end
 function c511001341.condition(e,tp,eg,ep,ev,re,r,rp)
-	return Duel.GetCurrentPhase()==PHASE_BATTLE
-		and (Duel.GetCurrentPhase()~=PHASE_DAMAGE or not Duel.IsDamageCalculated())
+	local ph=Duel.GetCurrentPhase()
+	return ph>=0x08 and ph<=0x20and (ph~=PHASE_DAMAGE or not Duel.IsDamageCalculated())
 end
 function c511001341.filter(c,e,tp)
 	return c:IsCanBeEffectTarget(e) and c:IsFaceup() and c:IsControler(tp)
