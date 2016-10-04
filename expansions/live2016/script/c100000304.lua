@@ -29,9 +29,8 @@ end
 function c100000304.operation(e,tp,eg,ep,ev,re,r,rp)
 	local ac=Duel.GetChainInfo(0,CHAININFO_TARGET_PARAM)
 	local g=Duel.GetMatchingGroup(Card.IsCode,tp,0,LOCATION_HAND,nil,ac)
-	local hg=Duel.GetFieldGroup(tp,0,LOCATION_HAND)
-	Duel.ConfirmCards(tp,hg)
 	if g:GetCount()>0 then
+		Duel.ConfirmCards(tp,g)
 		local tc=Duel.SelectMatchingCard(tp,c100000304.filter,tp,0,LOCATION_ONFIELD,1,1,nil):GetFirst()
 		if tc and not Duel.GetControl(tc,tp) then
 			if not tc:IsType(TYPE_MONSTER) then
